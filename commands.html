@@ -40,6 +40,32 @@
             color: #b9bbbe;
         }
         
+        .bot-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-box {
+            background-color: #36393f;
+            padding: 20px 40px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #7289da;
+        }
+        
+        .stat-label {
+            color: #b9bbbe;
+            margin-top: 5px;
+        }
+        
         .tabs {
             display: flex;
             justify-content: center;
@@ -110,32 +136,6 @@
             margin-bottom: 5px;
         }
         
-        .bot-stats {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .stat-box {
-            background-color: #36393f;
-            padding: 20px 40px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #7289da;
-        }
-        
-        .stat-label {
-            color: #b9bbbe;
-            margin-top: 5px;
-        }
-        
         .hidden {
             display: none;
         }
@@ -146,6 +146,18 @@
         <div class="header">
             <h1>Loop</h1>
             <p>Advanced Discord Bot</p>
+        </div>
+        
+        <!-- Updated Bot Statistics - Home Page -->
+        <div class="bot-stats">
+            <div class="stat-box">
+                <div class="stat-number">31+</div>
+                <div class="stat-label">Servers</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">85k+</div>
+                <div class="stat-label">Users</div>
+            </div>
         </div>
         
         <div class="tabs">
@@ -489,6 +501,7 @@
             </div>
         </div>
         
+        <!-- Bot Statistics - Commands Page (Also Updated) -->
         <div class="bot-stats">
             <div class="stat-box">
                 <div class="stat-number">31+</div>
