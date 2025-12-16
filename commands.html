@@ -3,483 +3,448 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loop - Advanced Discord Bot</title>
+    <title>Commands - Loop Discord Bot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #1a1a1a;
-            color: #ffffff;
-            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+            background: #000000;
+            overflow-x: hidden;
         }
         
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #cccccc 50%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(255, 255, 255, 0.1);
         }
         
-        .header h1 {
-            font-size: 3em;
-            color: #7289da;
-            margin-bottom: 10px;
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .header p {
-            font-size: 1.2em;
-            color: #b9bbbe;
+        .hover-lift {
+            transition: all 0.3s ease;
         }
         
-        .tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.1);
         }
         
-        .tab {
-            background-color: #2f3136;
-            border: none;
-            color: #ffffff;
-            padding: 12px 24px;
-            margin: 5px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: background-color 0.3s;
+        .pulse-animation {
+            animation: pulse 2s infinite;
         }
         
-        .tab:hover {
-            background-color: #7289da;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
         
-        .tab.active {
-            background-color: #7289da;
+        .particle-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
         
-        .content {
-            background-color: #2f3136;
-            border-radius: 10px;
-            padding: 30px;
-            margin-bottom: 30px;
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.9);
         }
         
-        .command-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+        .command-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
         }
         
-        .command-box {
-            background-color: #36393f;
-            border-radius: 8px;
-            padding: 20px;
-            border-left: 4px solid #7289da;
+        .command-card:hover {
+            transform: translateY(-5px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
         }
         
-        .command-name {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #7289da;
-            margin-bottom: 10px;
+        .filter-btn {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
         
-        .command-description {
-            color: #b9bbbe;
-            margin-bottom: 15px;
+        .filter-btn.active {
+            background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+            color: #000000;
+            border-color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
         
-        .command-details {
-            margin-top: 10px;
+        .filter-btn:hover {
+            border-color: #ffffff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
         }
         
-        .arguments, .permissions {
-            color: #dcddde;
-            font-size: 0.9em;
-            margin-bottom: 5px;
+        .search-bar {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
         }
         
-        .hidden {
-            display: none;
+        .search-bar:focus {
+            border-color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .args-text {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            font-style: italic;
+        }
+        
+        .permissions-text {
+            color: #f59e0b;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .label-text {
+            color: #6b7280;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
     </style>
+<base target="_blank">
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Loop</h1>
-            <p>Advanced Discord Bot</p>
-        </div>
-        
-        <div class="tabs">
-            <button class="tab active" onclick="showTab('server')">Server</button>
-            <button class="tab" onclick="showTab('moderation')">Moderation</button>
-            <button class="tab" onclick="showTab('fun')">Fun</button>
-            <button class="tab" onclick="showTab('economy')">Economy</button>
-            <button class="tab" onclick="showTab('utility')">Utility</button>
-            <button class="tab" onclick="showTab('sports')">Sports</button>
-        </div>
-        
-        <div class="content">
-            <div id="server" class="tab-content">
-                <div class="command-grid">
-                    <div class="command-box">
-                        <div class="command-name">setup</div>
-                        <div class="command-description">Start process for setting up the moderation system</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: None</div>
-                            <div class="permissions">Permissions: Administrator</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">antinuke</div>
-                        <div class="command-description">Antinuke to protect your server</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: None</div>
-                            <div class="permissions">Permissions: Administrator</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">antiraid</div>
-                        <div class="command-description">Configure protection against potential raids</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: enable/disable</div>
-                            <div class="permissions">Permissions: Administrator</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">membercount</div>
-                        <div class="command-description">View server member count</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: None</div>
-                            <div class="permissions">Permissions: None</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">bots</div>
-                        <div class="command-description">View all bot in the server</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: None</div>
-                            <div class="permissions">Permissions: None</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">boosterrole base</div>
-                        <div class="command-description">Set the base role for where booster roles will go under</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: @role</div>
-                            <div class="permissions">Permissions: Administrator</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="moderation" class="tab-content hidden">
-                <div class="command-grid">
-                    <div class="command-box">
-                        <div class="command-name">ban</div>
-                        <div class="command-description">Bans the mentioned user</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: @user [reason]</div>
-                            <div class="permissions">Permissions: Ban Members</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">timeout</div>
-                        <div class="command-description">Mutes the mentioned member using Discords timeout feature</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: @user [duration] [reason]</div>
-                            <div class="permissions">Permissions: Moderate Members</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">unjail</div>
-                        <div class="command-description">Unjails a user</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: @user</div>
-                            <div class="permissions">Permissions: Moderate Members</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">nuke</div>
-                        <div class="command-description">Clone the current channel</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: None</div>
-                            <div class="permissions">Permissions: Manage Channels</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">softban</div>
-                        <div class="command-description">Softbans the user and deletes 1 day of messages</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: @user [reason]</div>
-                            <div class="permissions">Permissions: Ban Members</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">reason</div>
-                        <div class="command-description">Updates the reason on a case log</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: caseID [new reason]</div>
-                            <div class="permissions">Permissions: Moderate Members</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">purge</div>
-                        <div class="command-description">Delete multiple messages from a channel</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: amount</div>
-                            <div class="permissions">Permissions: Manage Messages</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">kick</div>
-                        <div class="command-description">Kick a user from the server</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: @user [reason]</div>
-                            <div class="permissions">Permissions: Kick Members</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="fun" class="tab-content hidden">
-                <div class="command-grid">
-                    <div class="command-box">
-                        <div class="command-name">hug</div>
-                        <div class="command-description">Give someone a warm hug</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: @user</div>
-                            <div class="permissions">Permissions: None</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="economy" class="tab-content hidden">
-                <div class="command-grid">
-                    <div class="command-box">
-                        <div class="command-name">balance</div>
-                        <div class="command-description">Check your current balance</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: [@user]</div>
-                            <div class="permissions">Permissions: None</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">slots</div>
-                        <div class="command-description">Play the slot machine</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: bet</div>
-                            <div class="permissions">Permissions: None</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="utility" class="tab-content hidden">
-                <div class="command-grid">
-                    <div class="command-box">
-                        <div class="command-name">avatar</div>
-                        <div class="command-description">Get user's avatar</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: [@user]</div>
-                            <div class="permissions">Permissions: None</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">serverinfo</div>
-                        <div class="command-description">Get detailed server information</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: None</div>
-                            <div class="permissions">Permissions: None</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">topic</div>
-                        <div class="command-description">Change the current channel topic</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: [new topic]</div>
-                            <div class="permissions">Permissions: Manage Channels</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">roblox</div>
-                        <div class="command-description">Gets profile information on a given Roblox user</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: username</div>
-                            <div class="permissions">Permissions: None</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">timezone</div>
-                        <div class="command-description">View your own current time or somebody else's</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: [@user]</div>
-                            <div class="permissions">Permissions: None</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">define</div>
-                        <div class="command-description">Get definition of a word</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: word</div>
-                            <div class="permissions">Permissions: None</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">role edit</div>
-                        <div class="command-description">Change a role's name</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: @role [new name]</div>
-                            <div class="permissions">Permissions: Manage Roles</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">role has</div>
-                        <div class="command-description">Add a role to members with a specific role</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: @sourceRole @targetRole</div>
-                            <div class="permissions">Permissions: Manage Roles</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">stickyrole</div>
-                        <div class="command-description">Reapplies a role on join</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: @role</div>
-                            <div class="permissions">Permissions: Manage Roles</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">levels</div>
-                        <div class="command-description">View server levels and rankings</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: [@user]</div>
-                            <div class="permissions">Permissions: None</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">doublexp</div>
-                        <div class="command-description">Enable double XP for a duration</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: duration</div>
-                            <div class="permissions">Permissions: Manage Server</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">blacklistxp</div>
-                        <div class="command-description">Blacklist channels/roles from gaining XP</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: channel/role</div>
-                            <div class="permissions">Permissions: Manage Server</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">whitelistxp</div>
-                        <div class="command-description">Whitelist channels/roles for XP gain</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: channel/role</div>
-                            <div class="permissions">Permissions: Manage Server</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="sports" class="tab-content hidden">
-                <div class="command-grid">
-                    <div class="command-box">
-                        <div class="command-name">nba</div>
-                        <div class="command-description">View current status & score of NBA games</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: [team]</div>
-                            <div class="permissions">Permissions: None</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">nfl</div>
-                        <div class="command-description">View current status & score of NFL games</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: [team]</div>
-                            <div class="permissions">Permissions: None</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">mlb</div>
-                        <div class="command-description">View current status & score of MLB games</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: [team]</div>
-                            <div class="permissions">Permissions: None</div>
-                        </div>
-                    </div>
-                    
-                    <div class="command-box">
-                        <div class="command-name">soccer</div>
-                        <div class="command-description">View current status & score of Soccer games</div>
-                        <div class="command-details">
-                            <div class="arguments">Arguments: [team]</div>
-                            <div class="permissions">Permissions: None</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<body class="bg-black text-white">
+    <div class="particle-bg" id="particle-canvas"></div>
     
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 nav-blur border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold gradient-text">Loop</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="index.html" class="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                        <a href="commands.html" class="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium transition-colors bg-white/10">Commands</a>
+                        <button class="bg-white text-black px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors">Add Loop</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-4xl md:text-5xl font-bold gradient-text mb-4">Bot Commands</h2>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="mb-8 fade-in">
+                <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                    <div class="w-full md:w-96">
+                        <input type="text" id="search-input" placeholder="Search commands..." 
+                               class="w-full px-4 py-3 rounded-lg search-bar text-white placeholder-gray-400 focus:outline-none">
+                    </div>
+                    <div class="flex flex-wrap gap-2 justify-center">
+                        <button onclick="filterCommands('Server')" class="filter-btn active px-4 py-2 rounded-lg text-sm font-medium">Server (6)</button>
+                        <button onclick="filterCommands('Moderation')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Moderation (8)</button>
+                        <button onclick="filterCommands('Fun')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Fun (1)</button>
+                        <button onclick="filterCommands('Economy')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Economy (2)</button>
+                        <button onclick="filterCommands('Utility')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Utility (12)</button>
+                        <button onclick="filterCommands('Sports')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Sports (4)</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Commands Grid -->
+            <div id="commands-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Commands will be dynamically inserted here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p class="text-gray-400">&copy; 2025 Loop Discord Bot. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        function showTab(tabName) {
-            // Hide all tab contents
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => content.classList.add('hidden'));
+        // Particle background
+        let particles = [];
+        
+        function setup() {
+            let canvas = createCanvas(windowWidth, windowHeight);
+            canvas.parent('particle-canvas');
             
-            // Remove active class from all tabs
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            // Show selected tab content
-            document.getElementById(tabName).classList.remove('hidden');
-            
-            // Add active class to clicked tab
-            event.target.classList.add('active');
+            // Create particles
+            for (let i = 0; i < 50; i++) {
+                particles.push({
+                    x: random(width),
+                    y: random(height),
+                    size: random(2, 4),
+                    speedX: random(-0.5, 0.5),
+                    speedY: random(-0.5, 0.5),
+                    opacity: random(0.3, 0.8)
+                });
+            }
         }
+        
+        function draw() {
+            clear();
+            
+            // Update and draw particles
+            for (let particle of particles) {
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+                
+                // Wrap around edges
+                if (particle.x > width) particle.x = 0;
+                if (particle.x < 0) particle.x = width;
+                if (particle.y > height) particle.y = 0;
+                if (particle.y < 0) particle.y = height;
+                
+                // Draw particle
+                fill(255, 255, 255, particle.opacity * 255);
+                noStroke();
+                ellipse(particle.x, particle.y, particle.size);
+            }
+            
+            // Draw connections
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    let d = dist(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+                    if (d < 100) {
+                        stroke(255, 255, 255, (1 - d / 100) * 50);
+                        strokeWeight(0.5);
+                        line(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+                    }
+                }
+            }
+        }
+        
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+
+        // UPDATED COMMANDS DATA with your requested changes
+        const commands = [
+            // Server Commands (moved to front)
+            {name: 'setup', category: 'Server', description: 'Start process for setting up the moderation system', args: '', permissions: 'Administrator'},
+            {name: 'antinuke', category: 'Server', description: 'Antinuke to protect your server', args: '', permissions: 'Administrator'},
+            {name: 'antiraid', category: 'Server', description: 'Configure protection against potential raids', args: 'enable/disable', permissions: 'Administrator'},
+            {name: 'membercount', category: 'Server', description: 'View server member count', args: '', permissions: 'None'},
+            {name: 'bots', category: 'Server', description: 'View all bot in the server', args: '', permissions: 'None'},
+            {name: 'boosterrole base', category: 'Server', description: 'Set the base role for where booster roles will go under', args: '@role', permissions: 'Administrator'},
+            
+            // Moderation Commands (updated descriptions)
+            {name: 'ban', category: 'Moderation', description: 'Bans the mentioned user', args: '@user [reason]', permissions: 'Ban Members'},
+            {name: 'timeout', category: 'Moderation', description: 'Mutes the mentioned member using Discords timeout feature', args: '@user [duration] [reason]', permissions: 'Moderate Members'},
+            {name: 'unjail', category: 'Moderation', description: 'Unjails a user', args: '@user', permissions: 'Moderate Members'},
+            {name: 'nuke', category: 'Moderation', description: 'Clone the current channel', args: '', permissions: 'Manage Channels'},
+            {name: 'softban', category: 'Moderation', description: 'Softbans the user and deletes 1 day of messages', args: '@user [reason]', permissions: 'Ban Members'},
+            {name: 'reason', category: 'Moderation', description: 'Updates the reason on a case log', args: 'caseID [new reason]', permissions: 'Moderate Members'},
+            {name: 'purge', category: 'Moderation', description: 'Delete multiple messages from a channel', args: 'amount', permissions: 'Manage Messages'},
+            {name: 'kick', category: 'Moderation', description: 'Kick a user from the server', args: '@user [reason]', permissions: 'Kick Members'},
+            
+            // Fun Commands
+            {name: 'hug', category: 'Fun', description: 'Give someone a warm hug', args: '@user', permissions: 'Send Messages'},
+            
+            // Economy Commands
+            {name: 'balance', category: 'Economy', description: 'Check your current balance', args: '[user]', permissions: 'Send Messages'},
+            {name: 'slots', category: 'Economy', description: 'Play the slot machine', args: '[bet]', permissions: 'Send Messages'},
+            
+            // Utility Commands (updated)
+            {name: 'avatar', category: 'Utility', description: 'Get user avatar', args: '[user]', permissions: 'Send Messages'},
+            {name: 'serverinfo', category: 'Utility', description: 'Get detailed server information', args: '', permissions: 'Send Messages'},
+            {name: 'topic', category: 'Utility', description: 'Change the current channel topic', args: '[new topic]', permissions: 'Manage Channels'},
+            {name: 'roblox', category: 'Utility', description: 'Gets profile information on a given Roblox user', args: 'username', permissions: 'Send Messages'},
+            {name: 'timezone', category: 'Utility', description: 'View your own current time or somebody else\'s', args: '[user]', permissions: 'Send Messages'},
+            {name: 'define', category: 'Utility', description: 'Get definition of a word', args: 'word', permissions: 'Send Messages'},
+            {name: 'role edit', category: 'Utility', description: 'Change a role\'s name', args: '@role [new name]', permissions: 'Manage Roles'},
+            {name: 'role has', category: 'Utility', description: 'Add a role to members with a specific role', args: '@sourceRole @targetRole', permissions: 'Manage Roles'},
+            {name: 'stickyrole', category: 'Utility', description: 'Reapplies a role on join', args: '@role', permissions: 'Manage Roles'},
+            {name: 'levels', category: 'Utility', description: 'View server levels and rankings', args: '[user]', permissions: 'Send Messages'},
+            {name: 'doublexp', category: 'Utility', description: 'Enable double XP for a duration', args: 'duration', permissions: 'Manage Server'},
+            {name: 'blacklistxp', category: 'Utility', description: 'Blacklist channels/roles from gaining XP', args: 'channel/role', permissions: 'Manage Server'},
+            {name: 'whitelistxp', category: 'Utility', description: 'Whitelist channels/roles for XP gain', args: 'channel/role', permissions: 'Manage Server'},
+            
+            // Sports Commands (new category)
+            {name: 'nba', category: 'Sports', description: 'View current status & score of NBA games', args: '[team]', permissions: 'Send Messages'},
+            {name: 'nfl', category: 'Sports', description: 'View current status & score of NFL games', args: '[team]', permissions: 'Send Messages'},
+            {name: 'mlb', category: 'Sports', description: 'View current status & score of MLB games', args: '[team]', permissions: 'Send Messages'},
+            {name: 'soccer', category: 'Sports', description: 'View current status & score of Soccer games', args: '[team]', permissions: 'Send Messages'}
+        ];
+
+        // Initialize commands
+        function initializeCommands() {
+            const container = document.getElementById('commands-container');
+            
+            // Clear container
+            container.innerHTML = '';
+            
+            // Add all commands
+            commands.forEach((command, index) => {
+                const commandCard = createCommandCard(command);
+                commandCard.style.animationDelay = `${index * 0.05}s`;
+                container.appendChild(commandCard);
+            });
+            
+            // Show only Server commands by default
+            filterCommands('Server');
+        }
+
+        // Create command card with updated structure
+        function createCommandCard(command) {
+            const card = document.createElement('div');
+            card.className = 'command-card rounded-lg p-4 fade-in';
+            card.setAttribute('data-category', command.category);
+            card.setAttribute('data-name', command.name.toLowerCase());
+            card.setAttribute('data-description', command.description.toLowerCase());
+            
+            card.innerHTML = `
+                <div class="mb-3">
+                    <h3 class="text-lg font-bold text-white mb-2">${command.name}</h3>
+                    <p class="text-gray-300 text-sm mb-3">${command.description}</p>
+                    <div class="mb-2">
+                        <span class="label-text">Arguments:</span>
+                        <div class="args-text">${command.args ? command.name + ' ' + command.args : 'No arguments'}</div>
+                    </div>
+                    <div>
+                        <span class="label-text">Permissions:</span>
+                        <div class="permissions-text">${command.permissions}</div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-end">
+                    <button class="text-indigo-400 hover:text-indigo-300 transition-colors" onclick="copyCommand('${command.name}')">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Filter commands
+        function filterCommands(category) {
+            const commandCards = document.querySelectorAll('[data-category]');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update button states
+            buttons.forEach(btn => {
+                if (btn.textContent.includes(category)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Show/hide commands
+            commandCards.forEach(card => {
+                if (card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Search commands
+        function searchCommands(query) {
+            const commandCards = document.querySelectorAll('[data-category]');
+            const searchTerm = query.toLowerCase();
+            
+            commandCards.forEach(card => {
+                const commandName = card.getAttribute('data-name');
+                const commandDesc = card.getAttribute('data-description');
+                
+                if (commandName.includes(searchTerm) || commandDesc.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Copy command
+        function copyCommand(commandName) {
+            navigator.clipboard.writeText(commandName).then(() => {
+                // Show feedback
+                const button = event.target.closest('button');
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
+                button.classList.add('text-green-400');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.classList.remove('text-green-400');
+                }, 2000);
+            });
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCommands();
+            
+            // Add search functionality
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', function(e) {
+                searchCommands(e.target.value);
+            });
+            
+            // Add scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all command cards
+            setTimeout(() => {
+                document.querySelectorAll('.command-card').forEach(card => {
+                    observer.observe(card);
+                });
+            }, 100);
+        });
     </script>
 </body>
 </html>
