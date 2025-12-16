@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commands - Loop Discord Bot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000000;
+            overflow-x: hidden;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #cccccc 50%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .hover-lift {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.1);
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .particle-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.9);
+        }
+        
+        .command-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .command-card:hover {
+            transform: translateY(-5px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .filter-btn {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+            color: #000000;
+            border-color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+        
+        .filter-btn:hover {
+            border-color: #ffffff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        
+        .search-bar {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .search-bar:focus {
+            border-color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .args-text {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            font-style: italic;
+        }
+        
+        .permissions-text {
+            color: #f59e0b;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .label-text {
+            color: #6b7280;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <div class="particle-bg" id="particle-canvas"></div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 nav-blur border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold gradient-text">Loop</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="index.html" class="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                        <a href="commands.html" class="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium transition-colors bg-white/10">Commands</a>
+                        <button class="bg-white text-black px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors">Add Loop</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="text-center mb-12 fade-in">
+                <h2 class="text-4xl md:text-5xl font-bold gradient-text mb-4">Bot Commands</h2>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="mb-8 fade-in">
+                <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                    <div class="w-full md:w-96">
+                        <input type="text" id="search-input" placeholder="Search commands..." 
+                               class="w-full px-4 py-3 rounded-lg search-bar text-white placeholder-gray-400 focus:outline-none">
+                    </div>
+                    <div class="flex flex-wrap gap-2 justify-center">
+                        <button onclick="filterCommands('Server')" class="filter-btn active px-4 py-2 rounded-lg text-sm font-medium">Server (25)</button>
+                        <button onclick="filterCommands('Moderation')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Moderation (29)</button>
+                        <button onclick="filterCommands('Fun')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Fun (30)</button>
+                        <button onclick="filterCommands('Economy')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Economy (21)</button>
+                        <button onclick="filterCommands('Information')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Information (28)</button>
+                        <button onclick="filterCommands('Utility')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Utility (43)</button>
+                        <button onclick="filterCommands('Miscellaneous')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Miscellaneous (22)</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Commands Grid -->
+            <div id="commands-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Commands will be dynamically inserted here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p class="text-gray-400">&copy; 2025 Loop Discord Bot. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Particle background
+        let particles = [];
+        
+        function setup() {
+            let canvas = createCanvas(windowWidth, windowHeight);
+            canvas.parent('particle-canvas');
+            
+            // Create particles
+            for (let i = 0; i < 50; i++) {
+                particles.push({
+                    x: random(width),
+                    y: random(height),
+                    size: random(2, 4),
+                    speedX: random(-0.5, 0.5),
+                    speedY: random(-0.5, 0.5),
+                    opacity: random(0.3, 0.8)
+                });
+            }
+        }
+        
+        function draw() {
+            clear();
+            
+            // Update and draw particles
+            for (let particle of particles) {
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+                
+                // Wrap around edges
+                if (particle.x > width) particle.x = 0;
+                if (particle.x < 0) particle.x = width;
+                if (particle.y > height) particle.y = 0;
+                if (particle.y < 0) particle.y = height;
+                
+                // Draw particle
+                fill(255, 255, 255, particle.opacity * 255);
+                noStroke();
+                ellipse(particle.x, particle.y, particle.size);
+            }
+            
+            // Draw connections
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    let d = dist(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+                    if (d < 100) {
+                        stroke(255, 255, 255, (1 - d / 100) * 50);
+                        strokeWeight(0.5);
+                        line(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+                    }
+                }
+            }
+        }
+        
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+
+        // Commands data with arguments and permissions
+        const commands = [
+            // Server Commands (former Settings)
+            {name: 'settings', category: 'Server', description: 'View bot settings', args: '', permissions: 'Manage Server'},
+            {name: 'setup', category: 'Server', description: 'Start process for setting up the moderation system', args: '', permissions: 'Manage Server'},
+            {name: 'prefix', category: 'Server', description: 'Change bot prefix', args: '[new_prefix]', permissions: 'Manage Server'},
+            {name: 'prefixset', category: 'Server', description: 'Set bot prefix', args: '<prefix>', permissions: 'Manage Server'},
+            {name: 'prefixremove', category: 'Server', description: 'Remove prefix', args: '<prefix>', permissions: 'Manage Server'},
+            {name: 'prefixself', category: 'Server', description: 'Set personal prefix', args: '<prefix>', permissions: 'Send Messages'},
+            {name: 'disablecommand', category: 'Server', description: 'Disable a command', args: '<command>', permissions: 'Manage Server'},
+            {name: 'enablecommand', category: 'Server', description: 'Enable a command', args: '<command>', permissions: 'Manage Server'},
+            {name: 'disablemodule', category: 'Server', description: 'Disable a module', args: '<module>', permissions: 'Manage Server'},
+            {name: 'enablemodule', category: 'Server', description: 'Enable a module', args: '<module>', permissions: 'Manage Server'},
+            {name: 'restrictcommand', category: 'Server', description: 'Restrict command usage', args: '<command> <role>', permissions: 'Manage Server'},
+            {name: 'customize', category: 'Server', description: 'Customize bot appearance', args: '', permissions: 'Manage Server'},
+            {name: 'setbanner', category: 'Server', description: 'Set server banner', args: '<image>', permissions: 'Manage Server'},
+            {name: 'seticon', category: 'Server', description: 'Set server icon', args: '<image>', permissions: 'Manage Server'},
+            {name: 'setsplashbackground', category: 'Server', description: 'Set splash background', args: '<image>', permissions: 'Manage Server'},
+            {name: 'welcome', category: 'Server', description: 'Welcome message settings', args: '', permissions: 'Manage Server'},
+            {name: 'goodbye', category: 'Server', description: 'Goodbye message settings', args: '', permissions: 'Manage Server'},
+            {name: 'starboard', category: 'Server', description: 'Starboard settings', args: '', permissions: 'Manage Server'},
+            {name: 'log', category: 'Server', description: 'Logging settings', args: '', permissions: 'Manage Server'},
+            {name: 'filter', category: 'Server', description: 'Word filter settings', args: '', permissions: 'Manage Server'},
+            {name: 'ignore', category: 'Server', description: 'Ignore channels/users', args: '<channel/user>', permissions: 'Manage Server'},
+            {name: 'raid', category: 'Server', description: 'Raid protection settings', args: '', permissions: 'Manage Server'},
+            {name: 'antinuke', category: 'Server', description: 'Antinuke to protect your server', args: '', permissions: 'Manage Server'},
+            {name: 'antiraid', category: 'Server', description: 'Configure protection against potential raids', args: '', permissions: 'Manage Server'},
+            {name: 'boosterrole', category: 'Server', description: 'Set the base role for where booster roles will go under', args: '<role>', permissions: 'Manage Server'},
+            
+            // Moderation Commands
+            {name: 'purge', category: 'Moderation', description: 'Delete multiple messages from a channel', args: '<amount>', permissions: 'Manage Messages'},
+            {name: 'ban', category: 'Moderation', description: 'Bans the mentioned user', args: '<user> [reason]', permissions: 'Ban Members'},
+            {name: 'unban', category: 'Moderation', description: 'Unban a user from the server', args: '<user>', permissions: 'Ban Members'},
+            {name: 'kick', category: 'Moderation', description: 'Kick a user from the server', args: '<user> [reason]', permissions: 'Kick Members'},
+            {name: 'mute', category: 'Moderation', description: 'Mute a user in the server', args: '<user> [time]', permissions: 'Manage Roles'},
+            {name: 'unmute', category: 'Moderation', description: 'Unmute a user in the server', args: '<user>', permissions: 'Manage Roles'},
+            {name: 'timeout', category: 'Moderation', description: 'Mutes the mentioned member using Discords timeout feature', args: '<user> <time>', permissions: 'Moderate Members'},
+            {name: 'untimeout', category: 'Moderation', description: 'Remove timeout from a user', args: '<user>', permissions: 'Moderate Members'},
+            {name: 'jail', category: 'Moderation', description: 'Put a user in jail', args: '<user> [reason]', permissions: 'Manage Roles'},
+            {name: 'unjail', category: 'Moderation', description: 'Unjails a user', args: '<user>', permissions: 'Manage Roles'},
+            {name: 'lock', category: 'Moderation', description: 'Lock a channel', args: '[channel]', permissions: 'Manage Channels'},
+            {name: 'unlock', category: 'Moderation', description: 'Unlock a channel', args: '[channel]', permissions: 'Manage Channels'},
+            {name: 'lockdownall', category: 'Moderation', description: 'Lock all channels in the server', args: '', permissions: 'Manage Channels'},
+            {name: 'unlockall', category: 'Moderation', description: 'Unlock all channels in the server', args: '', permissions: 'Manage Channels'},
+            {name: 'slowmode', category: 'Moderation', description: 'Set slowmode for a channel', args: '<seconds>', permissions: 'Manage Channels'},
+            {name: 'nuke', category: 'Moderation', description: 'Clone the current channel', args: '[channel]', permissions: 'Manage Channels'},
+            {name: 'softban', category: 'Moderation', description: 'Softbans the user and deletes 1 day of messages', args: '<user> [reason]', permissions: 'Ban Members'},
+            {name: 'hardban', category: 'Moderation', description: 'Permanently ban a user', args: '<user> [reason]', permissions: 'Ban Members'},
+            {name: 'warn', category: 'Moderation', description: 'Warn a user', args: '<user> <reason>', permissions: 'Manage Messages'},
+            {name: 'warnings', category: 'Moderation', description: 'Check user warnings', args: '[user]', permissions: 'Manage Messages'},
+            {name: 'modstats', category: 'Moderation', description: 'Check moderation statistics', args: '[user]', permissions: 'Manage Messages'},
+            {name: 'recentban', category: 'Moderation', description: 'View recent bans', args: '', permissions: 'Ban Members'},
+            {name: 'bancount', category: 'Moderation', description: 'Count total bans', args: '', permissions: 'Ban Members'},
+            {name: 'history', category: 'Moderation', description: 'View user moderation history', args: '<user>', permissions: 'Manage Messages'},
+            {name: 'reason', category: 'Moderation', description: 'Updates the reason on a case log', args: '<case> <reason>', permissions: 'Manage Messages'},
+            {name: 'stripstaff', category: 'Moderation', description: 'Remove staff roles from a user', args: '<user>', permissions: 'Manage Roles'},
+            
+            // Fun Commands
+            {name: 'emoji', category: 'Fun', description: 'Display random emoji', args: '', permissions: 'Send Messages'},
+            {name: 'afk', category: 'Fun', description: 'Set AFK status', args: '[reason]', permissions: 'Send Messages'},
+            {name: 'airkiss', category: 'Fun', description: 'Send an air kiss to someone', args: '[user]', permissions: 'Send Messages'},
+            {name: 'angrystare', category: 'Fun', description: 'Send an angry stare', args: '[user]', permissions: 'Send Messages'},
+            {name: 'bite', category: 'Fun', description: 'Bite someone', args: '[user]', permissions: 'Send Messages'},
+            {name: 'bleh', category: 'Fun', description: 'Stick out your tongue', args: '', permissions: 'Send Messages'},
+            {name: 'brofist', category: 'Fun', description: 'Give someone a brofist', args: '[user]', permissions: 'Send Messages'},
+            {name: 'celebrate', category: 'Fun', description: 'Celebrate something', args: '', permissions: 'Send Messages'},
+            {name: 'cheers', category: 'Fun', description: 'Cheers with someone', args: '[user]', permissions: 'Send Messages'},
+            {name: 'clap', category: 'Fun', description: 'Clap for someone', args: '[user]', permissions: 'Send Messages'},
+            {name: 'confused', category: 'Fun', description: 'Show confusion', args: '', permissions: 'Send Messages'},
+            {name: 'cool', category: 'Fun', description: 'Show how cool you are', args: '', permissions: 'Send Messages'},
+            {name: 'cry', category: 'Fun', description: 'Cry', args: '', permissions: 'Send Messages'},
+            {name: 'cuddle', category: 'Fun', description: 'Cuddle with someone', args: '[user]', permissions: 'Send Messages'},
+            {name: 'dance', category: 'Fun', description: 'Dance', args: '', permissions: 'Send Messages'},
+            {name: 'drool', category: 'Fun', description: 'Drool over something', args: '', permissions: 'Send Messages'},
+            {name: 'evoke', category: 'Fun', description: 'Evoke emotions', args: '', permissions: 'Send Messages'},
+            {name: 'freaky', category: 'Fun', description: 'Get freaky', args: '', permissions: 'Send Messages'},
+            {name: 'hug', category: 'Fun', description: 'Hug someone', args: '[user]', permissions: 'Send Messages'},
+            {name: 'jumbo', category: 'Fun', description: 'Enlarge an emoji', args: '<emoji>', permissions: 'Send Messages'},
+            {name: 'naughty', category: 'Fun', description: 'Be naughty', args: '', permissions: 'Send Messages'},
+            {name: 'osu', category: 'Fun', description: 'Get osu! stats', args: '<username>', permissions: 'Send Messages'},
+            {name: 'poke', category: 'Fun', description: 'Poke someone', args: '[user]', permissions: 'Send Messages'},
+            {name: 'roleplay', category: 'Fun', description: 'Roleplay commands', args: '', permissions: 'Send Messages'},
+            {name: 'snapchat', category: 'Fun', description: 'Get Snapchat info', args: '<username>', permissions: 'Send Messages'},
+            {name: 'stickers', category: 'Fun', description: 'Sticker commands', args: '', permissions: 'Send Messages'},
+            {name: 'twitter', category: 'Fun', description: 'Get Twitter info', args: '<username>', permissions: 'Send Messages'},
+            {name: 'uwu', category: 'Fun', description: 'UwU command', args: '', permissions: 'Send Messages'},
+            {name: 'youtube', category: 'Fun', description: 'Get YouTube info', args: '<channel>', permissions: 'Send Messages'},
+            
+            // Economy Commands
+            {name: 'balance', category: 'Economy', description: 'Check your balance', args: '[user]', permissions: 'Send Messages'},
+            {name: 'daily', category: 'Economy', description: 'Claim daily reward', args: '', permissions: 'Send Messages'},
+            {name: 'weekly', category: 'Economy', description: 'Claim weekly reward', args: '', permissions: 'Send Messages'},
+            {name: 'monthly', category: 'Economy', description: 'Claim monthly reward', args: '', permissions: 'Send Messages'},
+            {name: 'yearly', category: 'Economy', description: 'Claim yearly reward', args: '', permissions: 'Send Messages'},
+            {name: 'work', category: 'Economy', description: 'Work for money', args: '', permissions: 'Send Messages'},
+            {name: 'deposit', category: 'Economy', description: 'Deposit money to bank', args: '<amount>', permissions: 'Send Messages'},
+            {name: 'withdraw', category: 'Economy', description: 'Withdraw money from bank', args: '<amount>', permissions: 'Send Messages'},
+            {name: 'give', category: 'Economy', description: 'Give money to someone', args: '<user> <amount>', permissions: 'Send Messages'},
+            {name: 'setbalance', category: 'Economy', description: 'Set user balance (admin)', args: '<user> <amount>', permissions: 'Manage Server'},
+            {name: 'leaderboard', category: 'Economy', description: 'View money leaderboard', args: '', permissions: 'Send Messages'},
+            {name: 'cashapp', category: 'Economy', description: 'Send money via CashApp', args: '<user> <amount>', permissions: 'Send Messages'},
+            {name: 'loan', category: 'Economy', description: 'Take a loan', args: '<amount>', permissions: 'Send Messages'},
+            {name: 'bet', category: 'Economy', description: 'Bet money on games', args: '<amount>', permissions: 'Send Messages'},
+            {name: 'blackjack', category: 'Economy', description: 'Play blackjack', args: '[bet]', permissions: 'Send Messages'},
+            {name: 'slots', category: 'Economy', description: 'Play slots', args: '[bet]', permissions: 'Send Messages'},
+            {name: 'mines', category: 'Economy', description: 'Play mines game', args: '[bet]', permissions: 'Send Messages'},
+            {name: 'mlb', category: 'Economy', description: 'View current status & score of MLB games', args: '<team> <bet>', permissions: 'Send Messages'},
+            {name: 'nba', category: 'Economy', description: 'View current status & score of NBA games', args: '<team> <bet>', permissions: 'Send Messages'},
+            {name: 'nfl', category: 'Economy', description: 'View current status & score of NFL games', args: '<team> <bet>', permissions: 'Send Messages'},
+            {name: 'soccer', category: 'Economy', description: 'View current status & score of Soccer games', args: '<team> <bet>', permissions: 'Send Messages'},
+            
+            // Information Commands
+            {name: 'botinfo', category: 'Information', description: 'Get bot information', args: '', permissions: 'Send Messages'},
+            {name: 'userinfo', category: 'Information', description: 'Get user information', args: '[user]', permissions: 'Send Messages'},
+            {name: 'serverinfo', category: 'Information', description: 'Get server information', args: '', permissions: 'Send Messages'},
+            {name: 'channelinfo', category: 'Information', description: 'Get channel information', args: '[channel]', permissions: 'Send Messages'},
+            {name: 'roleinfo', category: 'Information', description: 'Get role information', args: '<role>', permissions: 'Send Messages'},
+            {name: 'membercount', category: 'Information', description: 'View server member count', args: '', permissions: 'Send Messages'},
+            {name: 'ping', category: 'Information', description: 'Check bot ping', args: '', permissions: 'Send Messages'},
+            {name: 'uptime', category: 'Information', description: 'Check bot uptime', args: '', permissions: 'Send Messages'},
+            {name: 'avatar', category: 'Information', description: 'Get user avatar', args: '[user]', permissions: 'Send Messages'},
+            {name: 'serveravatar', category: 'Information', description: 'Get server avatar', args: '[user]', permissions: 'Send Messages'},
+            {name: 'banner', category: 'Information', description: 'Get user banner', args: '[user]', permissions: 'Send Messages'},
+            {name: 'serverbanner', category: 'Information', description: 'Get server banner', args: '', permissions: 'Send Messages'},
+            {name: 'guildicon', category: 'Information', description: 'Get guild icon', args: '', permissions: 'Send Messages'},
+            {name: 'guildbanner', category: 'Information', description: 'Get guild banner', args: '', permissions: 'Send Messages'},
+            {name: 'badge', category: 'Information', description: 'Get user badges', args: '[user]', permissions: 'Send Messages'},
+            {name: 'boosts', category: 'Information', description: 'Check server boosts', args: '', permissions: 'Send Messages'},
+            {name: 'booster', category: 'Information', description: 'Get booster information', args: '[user]', permissions: 'Send Messages'},
+            {name: 'bots', category: 'Information', description: 'View all bot in the server', args: '', permissions: 'Send Messages'},
+            {name: 'inviteinfo', category: 'Information', description: 'Get invite information', args: '<invite>', permissions: 'Send Messages'},
+            {name: 'seen', category: 'Information', description: 'Check when user was last seen', args: '[user]', permissions: 'Send Messages'},
+            {name: 'define', category: 'Information', description: 'Get definition of a word', args: '<word>', permissions: 'Send Messages'},
+            {name: 'urbandictionary', category: 'Information', description: 'Urban dictionary definition', args: '<word>', permissions: 'Send Messages'},
+            {name: 'topic', category: 'Information', description: 'Change the current channel topic', args: '', permissions: 'Send Messages'},
+            {name: 'firstmessage', category: 'Information', description: 'Get first message in channel', args: '[channel]', permissions: 'Send Messages'},
+            {name: 'timezone', category: 'Information', description: 'View your own current time or somebody else\'s', args: '[timezone]', permissions: 'Send Messages'},
+            {name: 'lastfm', category: 'Information', description: 'Get Last.fm stats', args: '<username>', permissions: 'Send Messages'},
+            {name: 'roblox', category: 'Information', description: 'Gets profile information on a given Roblox user', args: '<username>', permissions: 'Send Messages'},
+            
+            // Utility Commands
+            {name: 'alias', category: 'Utility', description: 'Create command aliases', args: '<command> <alias>', permissions: 'Manage Server'},
+            {name: 'autoresponder', category: 'Utility', description: 'Set auto responses', args: '<trigger> <response>', permissions: 'Manage Server'},
+            {name: 'autorole', category: 'Utility', description: 'Set auto roles', args: '<role>', permissions: 'Manage Server'},
+            {name: 'buttonrole', category: 'Utility', description: 'Create button roles', args: '', permissions: 'Manage Server'},
+            {name: 'reactionrole', category: 'Utility', description: 'Create reaction roles', args: '', permissions: 'Manage Server'},
+            {name: 'role', category: 'Utility', description: 'Manage roles', args: '<user> <role>', permissions: 'Manage Roles'},
+            {name: 'roleall', category: 'Utility', description: 'Give role to all users', args: '<role>', permissions: 'Manage Roles'},
+            {name: 'rolebots', category: 'Utility', description: 'Give role to all bots', args: '<role>', permissions: 'Manage Roles'},
+            {name: 'rolehumans', category: 'Utility', description: 'Give role to all humans', args: '<role>', permissions: 'Manage Roles'},
+            {name: 'rolecreate', category: 'Utility', description: 'Create a new role', args: '<name>', permissions: 'Manage Roles'},
+            {name: 'roledelete', category: 'Utility', description: 'Delete a role', args: '<role>', permissions: 'Manage Roles'},
+            {name: 'roleedit', category: 'Utility', description: 'Change a role\'s name', args: '<role> <property> <value>', permissions: 'Manage Roles'},
+            {name: 'rolecolor', category: 'Utility', description: 'Change role color', args: '<role> <color>', permissions: 'Manage Roles'},
+            {name: 'rolehoist', category: 'Utility', description: 'Toggle role hoist', args: '<role>', permissions: 'Manage Roles'},
+            {name: 'roles', category: 'Utility', description: 'List all roles', args: '', permissions: 'Send Messages'},
+            {name: 'rolerestore', category: 'Utility', description: 'Restore user roles', args: '<user>', permissions: 'Manage Roles'},
+            {name: 'rolehas', category: 'Utility', description: 'Add a role to members with a specific role', args: '<role>', permissions: 'Send Messages'},
+            {name: 'temprole', category: 'Utility', description: 'Give temporary role', args: '<user> <role> <time>', permissions: 'Manage Roles'},
+            {name: 'stickyrole', category: 'Utility', description: 'Reapplies a role on join', args: '<user> <role>', permissions: 'Manage Roles'},
+            {name: 'forcenickname', category: 'Utility', description: 'Force user nickname', args: '<user> <nickname>', permissions: 'Manage Nicknames'},
+            {name: 'clearnames', category: 'Utility', description: 'Clear user nicknames', args: '[user]', permissions: 'Manage Nicknames'},
+            {name: 'names', category: 'Utility', description: 'Check user past names', args: '[user]', permissions: 'Send Messages'},
+            {name: 'createembed', category: 'Utility', description: 'Create an embed', args: '', permissions: 'Manage Messages'},
+            {name: 'editembed', category: 'Utility', description: 'Edit an embed', args: '<message> <json>', permissions: 'Manage Messages'},
+            {name: 'embedcreate', category: 'Utility', description: 'Create embed (alternative)', args: '', permissions: 'Manage Messages'},
+            {name: 'quote', category: 'Utility', description: 'Quote a message', args: '<message>', permissions: 'Send Messages'},
+            {name: 'remind', category: 'Utility', description: 'Set a reminder', args: '<time> <message>', permissions: 'Send Messages'},
+            {name: 'timer', category: 'Utility', description: 'Set a timer', args: '<time>', permissions: 'Send Messages'},
+            {name: 'poll', category: 'Utility', description: 'Create a poll', args: '<question> <options>', permissions: 'Send Messages'},
+            {name: 'choose', category: 'Utility', description: 'Let bot choose for you', args: '<option1> <option2> [more]', permissions: 'Send Messages'},
+            {name: 'countdown', category: 'Utility', description: 'Start countdown', args: '<time>', permissions: 'Send Messages'},
+            {name: 'reminder', category: 'Utility', description: 'Set reminder', args: '<time> <message>', permissions: 'Send Messages'},
+            {name: 'giveaways', category: 'Utility', description: 'Manage giveaways', args: '', permissions: 'Manage Server'},
+            {name: 'bumpreminder', category: 'Utility', description: 'Set bump reminder', args: '<channel>', permissions: 'Manage Server'},
+            {name: 'stickymessage', category: 'Utility', description: 'Make message sticky', args: '<message>', permissions: 'Manage Messages'},
+            {name: 'levels', category: 'Utility', description: 'Check your rank', args: '[user]', permissions: 'Send Messages'},
+            {name: 'leaderboard', category: 'Utility', description: 'View leaderboard', args: '', permissions: 'Send Messages'},
+            {name: 'leveling', category: 'Utility', description: 'Leveling system settings', args: '', permissions: 'Manage Server'},
+            {name: 'setxp', category: 'Utility', description: 'Set user XP (admin)', args: '<user> <xp>', permissions: 'Manage Server'},
+            {name: 'setlevel', category: 'Utility', description: 'Set user level (admin)', args: '<user> <level>', permissions: 'Manage Server'},
+            {name: 'resetxp', category: 'Utility', description: 'Reset user XP', args: '<user>', permissions: 'Manage Server'},
+            
+            // Miscellaneous Commands
+            {name: 'birthday', category: 'Miscellaneous', description: 'Birthday commands', args: '', permissions: 'Send Messages'},
+            {name: 'snipe', category: 'Miscellaneous', description: 'Snipe deleted messages', args: '', permissions: 'Send Messages'},
+            {name: 'clearsnipe', category: 'Miscellaneous', description: 'Clear sniped messages', args: '', permissions: 'Manage Messages'},
+            {name: 'editsnipe', category: 'Miscellaneous', description: 'Snipe edited messages', args: '', permissions: 'Send Messages'},
+            {name: 'reactionsnipe', category: 'Miscellaneous', description: 'Snipe removed reactions', args: '', permissions: 'Send Messages'},
+            {name: 'steal', category: 'Miscellaneous', description: 'Steal emojis', args: '<emoji> [name]', permissions: 'Manage Emojis'},
+            {name: 'emojiadd', category: 'Miscellaneous', description: 'Add emoji', args: '<name> <image>', permissions: 'Manage Emojis'},
+            {name: 'emojiaddmany', category: 'Miscellaneous', description: 'Add multiple emojis', args: '', permissions: 'Manage Emojis'},
+            {name: 'emojiremove', category: 'Miscellaneous', description: 'Remove emoji', args: '<emoji>', permissions: 'Manage Emojis'},
+            {name: 'emojiremovemany', category: 'Miscellaneous', description: 'Remove multiple emojis', args: '<emoji1> [emoji2...]', permissions: 'Manage Emojis'},
+            {name: 'emojirename', category: 'Miscellaneous', description: 'Rename emoji', args: '<emoji> <new_name>', permissions: 'Manage Emojis'},
+            {name: 'compress', category: 'Miscellaneous', description: 'Compress files', args: '<file>', permissions: 'Send Messages'},
+            {name: 'dump', category: 'Miscellaneous', description: 'Dump channel messages', args: '[channel]', permissions: 'Manage Messages'},
+            {name: 'rotate', category: 'Miscellaneous', description: 'Rotate images', args: '<image> <degrees>', permissions: 'Send Messages'},
+            {name: 'splash', category: 'Miscellaneous', description: 'Server splash settings', args: '', permissions: 'Manage Server'},
+            {name: 'inrole', category: 'Miscellaneous', description: 'List users with role', args: '<role>', permissions: 'Send Messages'},
+            {name: 'topcommands', category: 'Miscellaneous', description: 'Most used commands', args: '', permissions: 'Send Messages'},
+            {name: 'counter', category: 'Miscellaneous', description: 'Create counters', args: '<name>', permissions: 'Manage Server'},
+            {name: 'thread', category: 'Miscellaneous', description: 'Thread management', args: '', permissions: 'Manage Threads'},
+            {name: 'voicemaster', category: 'Miscellaneous', description: 'Voice channel management', args: '', permissions: 'Manage Channels'},
+            {name: 'pinger', category: 'Miscellaneous', description: 'Ping management', args: '', permissions: 'Manage Server'},
+            {name: 'reaction', category: 'Miscellaneous', description: 'Reaction management', args: '', permissions: 'Manage Messages'},
+            {name: 'alias', category: 'Miscellaneous', description: 'Command aliases', args: '', permissions: 'Manage Server'},
+        ];
+
+        // Initialize commands
+        function initializeCommands() {
+            const container = document.getElementById('commands-container');
+            
+            // Clear container
+            container.innerHTML = '';
+            
+            // Add all commands
+            commands.forEach((command, index) => {
+                const commandCard = createCommandCard(command);
+                commandCard.style.animationDelay = `${index * 0.05}s`;
+                container.appendChild(commandCard);
+            });
+            
+            // Show only Server commands by default
+            filterCommands('Server');
+        }
+
+        // Create command card
+        function createCommandCard(command) {
+            const card = document.createElement('div');
+            card.className = 'command-card rounded-lg p-4 fade-in';
+            card.setAttribute('data-category', command.category);
+            card.setAttribute('data-name', command.name.toLowerCase());
+            card.setAttribute('data-description', command.description.toLowerCase());
+            
+            card.innerHTML = `
+                <div class="mb-3">
+                    <h3 class="text-lg font-bold text-white mb-2">${command.name}</h3>
+                    <p class="text-gray-300 text-sm mb-3">${command.description}</p>
+                    <div class="mb-2">
+                        <span class="label-text">Arguments:</span>
+                        <div class="args-text">${command.args ? command.name + ' ' + command.args : 'No arguments'}</div>
+                    </div>
+                    <div>
+                        <span class="label-text">Permissions:</span>
+                        <div class="permissions-text">${command.permissions}</div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-end">
+                    <button class="text-indigo-400 hover:text-indigo-300 transition-colors" onclick="copyCommand('${command.name}')">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Filter commands
+        function filterCommands(category) {
+            const commandCards = document.querySelectorAll('[data-category]');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update button states
+            buttons.forEach(btn => {
+                if (btn.textContent.includes(category)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Show/hide commands
+            commandCards.forEach(card => {
+                if (card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Search commands
+        function searchCommands(query) {
+            const commandCards = document.querySelectorAll('[data-category]');
+            const searchTerm = query.toLowerCase();
+            
+            commandCards.forEach(card => {
+                const commandName = card.getAttribute('data-name');
+                const commandDesc = card.getAttribute('data-description');
+                
+                if (commandName.includes(searchTerm) || commandDesc.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Copy command
+        function copyCommand(commandName) {
+            navigator.clipboard.writeText(commandName).then(() => {
+                // Show feedback
+                const button = event.target.closest('button');
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
+                button.classList.add('text-green-400');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.classList.remove('text-green-400');
+                }, 2000);
+            });
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCommands();
+            
+            // Add search functionality
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', function(e) {
+                searchCommands(e.target.value);
+            });
+            
+            // Add scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all command cards
+            setTimeout(() => {
+                document.querySelectorAll('.command-card').forEach(card => {
+                    observer.observe(card);
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>
