@@ -81,7 +81,7 @@
     </style>
 <script src="https://statics.moonshot.cn/sdk/preview-widgets.min.js" defer=""></script></head>
 <body class="bg-gray-900 text-white">
-    <div id="particle-container" class="particle-bg"></div>
+    <div class="particle-bg" id="particle-canvas"></div>
     
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 nav-blur border-b border-gray-800">
@@ -134,32 +134,24 @@
     </section>
 
     <!-- Statistics Section -->
-    <section class="py-20 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">Bot Statistics</h2>
-                <p class="text-xl text-gray-300">Real-time performance metrics and usage data</p>
+<section class="py-20 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 gradient-text">Bot Statistics</h2>
+            <p class="text-xl text-gray-300">Real-time performance metrics and usage data</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+            <div class="glass-morphism rounded-2xl p-8 text-center hover-lift">
+                <div class="stats-counter">31+</div>
+                <p class="text-gray-300 text-lg font-medium">Servers</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="glass-morphism rounded-2xl p-8 text-center hover-lift">
-                    <div class="stats-counter" data-target="15000">0</div>
-                    <p class="text-gray-300 text-lg font-medium">Servers</p>
-                </div>
-                <div class="glass-morphism rounded-2xl p-8 text-center hover-lift">
-                    <div class="stats-counter" data-target="500000">0</div>
-                    <p class="text-gray-300 text-lg font-medium">Users</p>
-                </div>
-                <div class="glass-morphism rounded-2xl p-8 text-center hover-lift">
-                    <div class="stats-counter" data-target="100">0</div>
-                    <p class="text-gray-300 text-lg font-medium">Commands</p>
-                </div>
-                <div class="glass-morphism rounded-2xl p-8 text-center hover-lift">
-                    <div class="stats-counter" data-target="99">0</div>
-                    <p class="text-gray-300 text-lg font-medium">Uptime %</p>
-                </div>
+            <div class="glass-morphism rounded-2xl p-8 text-center hover-lift">
+                <div class="stats-counter">85k+</div>
+                <p class="text-gray-300 text-lg font-medium">Users</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Features Section -->
     <section class="py-20 relative">
@@ -275,12 +267,74 @@
         </div>
     </footer>
 
-    <script src="main.js"></script>
-
-html&gt;pt src=&#34;main.js&#34;&gt;
-
-ghts reserved.<p></p>
-        
+    <script>
+    // Particle background
+    let particles = [];
     
+    function setup() {
+        let canvas = createCanvas(windowWidth, windowHeight);
+        canvas.parent('particle-canvas');
+        
+        // Create particles
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: random(width),
+                y: random(height),
+                size: random(2, 4),
+                speedX: random(-0.5, 0.5),
+                speedY: random(-0.5, 0.5),
+                opacity: random(0.3, 0.8)
+            });
+        }
+    }
+    
+    function draw() {
+        clear();
+        
+        // Update and draw particles
+        for (let particle of particles) {
+            particle.x += particle.speedX;
+            particle.y += particle.speedY;
+            
+            // Wrap around edges
+            if (particle.x > width) particle.x = 0;
+            if (particle.x < 0) particle.x = width;
+            if (particle.y > height) particle.y = 0;
+            if (particle.y < 0) particle.y = height;
+            
+            // Draw particle
+            fill(255, 255, 255, particle.opacity * 255);
+            noStroke();
+            ellipse(particle.x, particle.y, particle.size);
+        }
+        
+        // Draw connections
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                let d = dist(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+                if (d < 100) {
+                    stroke(255, 255, 255, (1 - d / 100) * 50);
+                    strokeWeight(0.5);
+                    line(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+                }
+            }
+        }
+    }
+    
+    function windowResized() {
+        resizeCanvas(windowWidth, windowHeight);
+    }
 
-   </body></html>
+    // Mobile menu toggle
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function() {
+                // Add your mobile menu logic here
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
