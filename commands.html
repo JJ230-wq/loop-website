@@ -165,24 +165,27 @@
             </div>
 
             <!-- Search and Filter -->
-            <div class="mb-8 fade-in">
-                <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
-                    <div class="w-full md:w-96">
-                        <input type="text" id="search-input" placeholder="Search commands..." 
-                               class="w-full px-4 py-3 rounded-lg search-bar text-white placeholder-gray-400 focus:outline-none">
-                    </div>
-                    <div class="flex flex-wrap gap-2 justify-center">
-                        <button onclick="filterCommands('Server')" class="filter-btn active px-4 py-2 rounded-lg text-sm font-medium">Server (25)</button>
-                        <button onclick="filterCommands('Moderation')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Moderation (29)</button>
-                        <button onclick="filterCommands('Fun')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Fun (30)</button>
-                        <button onclick="filterCommands('Economy')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Economy (21)</button>
-                        <button onclick="filterCommands('Information')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Information (28)</button>
-                        <button onclick="filterCommands('Utility')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Utility (43)</button>
-                        <button onclick="filterCommands('Sports')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Sports (4)</button>
-                        <button onclick="filterCommands('Miscellaneous')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Miscellaneous (22)</button>
-                    </div>
-                </div>
+<div class="mb-8 fade-in">
+    <div class="flex flex-col gap-4">
+        <!-- Search bar on top right -->
+        <div class="flex justify-end">
+            <div class="w-full md:w-96">
+                <input type="text" id="search-input" placeholder="Search commands..." 
+                       class="w-full px-4 py-3 rounded-lg search-bar text-white placeholder-gray-400 focus:outline-none">
             </div>
+        </div>
+        <!-- Tabs side by side -->
+        <div class="flex flex-wrap gap-2 justify-center">
+            <button onclick="filterCommands('Server')" class="filter-btn active px-4 py-2 rounded-lg text-sm font-medium">Server (25)</button>
+            <button onclick="filterCommands('Moderation')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Moderation (29)</button>
+            <button onclick="filterCommands('Fun')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Fun (30)</button>
+            <button onclick="filterCommands('Economy')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Economy (21)</button>
+            <button onclick="filterCommands('Information')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Information (28)</button>
+            <button onclick="filterCommands('Utility')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Utility (43)</button>
+            <button onclick="filterCommands('Miscellaneous')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Miscellaneous (26)</button>
+        </div>
+    </div>
+</div>
 
             <!-- Commands Grid -->
             <div id="commands-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -446,11 +449,6 @@
             {name: 'blacklistxp', category: 'Utility', description: 'Blacklist channels/roles from gaining XP', args: 'channel/role', permissions: 'Manage Server'},
             {name: 'whitelistxp', category: 'Utility', description: 'Whitelist channels/roles for XP gain', args: 'channel/role', permissions: 'Manage Server'},
             
-            // Sports Commands (new category)
-            {name: 'nba', category: 'Sports', description: 'View current status & score of NBA games', args: '[team]', permissions: 'Send Messages'},
-            {name: 'nfl', category: 'Sports', description: 'View current status & score of NFL games', args: '[team]', permissions: 'Send Messages'},
-            {name: 'mlb', category: 'Sports', description: 'View current status & score of MLB games', args: '[team]', permissions: 'Send Messages'},
-            {name: 'soccer', category: 'Sports', description: 'View current status & score of Soccer games', args: '[team]', permissions: 'Send Messages'},
             
             // Miscellaneous Commands (all restored)
             {name: 'birthday', category: 'Miscellaneous', description: 'Birthday commands', args: '', permissions: 'Send Messages'},
@@ -475,7 +473,11 @@
             {name: 'voicemaster', category: 'Miscellaneous', description: 'Voice channel management', args: '', permissions: 'Manage Channels'},
             {name: 'pinger', category: 'Miscellaneous', description: 'Ping management', args: '', permissions: 'Manage Server'},
             {name: 'reaction', category: 'Miscellaneous', description: 'Reaction management', args: '', permissions: 'Manage Messages'},
-            {name: 'alias', category: 'Miscellaneous', description: 'Command aliases', args: '', permissions: 'Manage Server'}
+            {name: 'alias', category: 'Miscellaneous', description: 'Command aliases', args: '', permissions: 'Manage Server'},
+            {name: 'nba', category: 'Miscellaneous', description: 'View current status & score of NBA games', args: '[team]', permissions: 'Send Messages'},
+            {name: 'nfl', category: 'Miscellaneous', description: 'View current status & score of NFL games', args: '[team]', permissions: 'Send Messages'},
+            {name: 'mlb', category: 'Miscellaneous', description: 'View current status & score of MLB games', args: '[team]', permissions: 'Send Messages'},
+            {name: 'soccer', category: 'Miscellaneous', description: 'View current status & score of Soccer games', args: '[team]', permissions: 'Send Messages'}
         ];
 
         // Initialize commands
