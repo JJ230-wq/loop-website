@@ -176,13 +176,14 @@
         </div>
         <!-- Tabs side by side -->
         <div class="flex flex-wrap gap-2 justify-center">
-            <button onclick="filterCommands('Server')" class="filter-btn active px-4 py-2 rounded-lg text-sm font-medium">Server (25)</button>
+            <button onclick="filterCommands('♡ Server')" class="filter-btn active px-4 py-2 rounded-lg text-sm font-medium">Server (34)</button>
             <button onclick="filterCommands('Moderation')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Moderation (29)</button>
-            <button onclick="filterCommands('Fun')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Fun (30)</button>
-            <button onclick="filterCommands('Economy')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Economy (21)</button>
+            <button onclick="filterCommands('Roleplay')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Fun (30)</button>
+            <button onclick="filterCommands('💲Economy')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Economy (21)</button>
             <button onclick="filterCommands('Information')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Information (28)</button>
             <button onclick="filterCommands('Utility')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Utility (43)</button>
-            <button onclick="filterCommands('Miscellaneous')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Miscellaneous (26)</button>
+            <button onclick="filterCommands('Miscellaneous')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Miscellaneous (25)</button>
+            <button onclick="filterCommands('🎙️Voicemaster')" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium">Voicemaster (10)</button>
         </div>
     </div>
 </div>
@@ -296,7 +297,6 @@
             {name: 'goodbye add', category: 'Server', description: 'Add a goodbye message for a channel', args: '<channel> <message>', permissions: 'Manage Server'},
             {name: 'starboard', category: 'Server', description: 'Showcase the best messages in your server', args: '', permissions: 'Manage Server'},
             {name: 'log', category: 'Server', description: 'Set up logging for your server', args: '', permissions: 'Manage Server'},
-            {name: 'sticker', category: 'Fun', description: 'Modify or add stickers to your server', args: '', permissions: 'Send Messages'},
             {name: 'filter', category: 'Server', description: 'View options to keep your chat clean', args: '', permissions: 'Manage Server'},
             {name: 'ignore', category: 'Server', description: 'Ignore a channel or user', args: '<channel/user>', permissions: 'Manage Server'},
             {name: 'raid', category: 'Server', description: 'Remove members who joined in the time of a raid', args: '', permissions: 'Manage Server'},
@@ -329,36 +329,26 @@
             {name: 'stripstaff', category: 'Moderation', description: 'Remove staff roles from a user', args: '<user>', permissions: 'Manage Roles'},
             {name: 'purge', category: 'Moderation', description: 'Delete multiple messages from a channel', args: '<amount>', permissions: 'Manage Messages'},
             
-            // Fun Commands (all restored)
-            {name: 'emoji', category: 'Fun', description: 'Display random emoji', args: '', permissions: 'Send Messages'},
-            {name: 'afk', category: 'Fun', description: 'Set AFK status', args: '[reason]', permissions: 'Send Messages'},
-            {name: 'airkiss', category: 'Fun', description: 'Send an air kiss to someone', args: '[user]', permissions: 'Send Messages'},
-            {name: 'angrystare', category: 'Fun', description: 'angrily stare at someone', args: '[user]', permissions: 'Send Messages'},
-            {name: 'bite', category: 'Fun', description: 'Bite someone', args: '[user]', permissions: 'Send Messages'},
-            {name: 'bleh', category: 'Fun', description: 'Stick your tongue out at somebody', args: '', permissions: 'Send Messages'},
-            {name: 'brofist', category: 'Fun', description: 'Give someone a brofist', args: '[user]', permissions: 'Send Messages'},
-            {name: 'celebrate', category: 'Fun', description: 'Celebrate with somebody', args: '', permissions: 'Send Messages'},
-            {name: 'cheers', category: 'Fun', description: 'Cheers with somebody', args: '[user]', permissions: 'Send Messages'},
-            {name: 'clap', category: 'Fun', description: 'Clap with somebody', args: '[user]', permissions: 'Send Messages'},
-            {name: 'confused', category: 'Fun', description: 'Show confusion at somebody', args: '', permissions: 'Send Messages'},
-            {name: 'cool', category: 'Fun', description: 'Cool with somebody', args: '', permissions: 'Send Messages'},
-            {name: 'cry', category: 'Fun', description: 'Cry with somebody', args: '', permissions: 'Send Messages'},
-            {name: 'cuddle', category: 'Fun', description: 'Cuddle with somebody', args: '[user]', permissions: 'Send Messages'},
-            {name: 'dance', category: 'Fun', description: 'Dance with somebody', args: '', permissions: 'Send Messages'},
-            {name: 'drool', category: 'Fun', description: 'Drool over somebody', args: '', permissions: 'Send Messages'},
-            {name: 'evoke', category: 'Fun', description: 'Change a message for a moderation action', args: '', permissions: 'Send Messages'},
-            {name: 'freaky', category: 'Fun', description: 'Get freaky with somebody', args: '', permissions: 'Send Messages'},
-            {name: 'hug', category: 'Fun', description: 'Give somebody a warm hug', args: 'user', permissions: 'Send Messages'},
-            {name: 'jumbo', category: 'Fun', description: 'Enlarge an emoji', args: 'emoji', permissions: 'Send Messages'},
-            {name: 'naughty', category: 'Fun', description: 'Be naughty with somebody', args: '', permissions: 'Send Messages'},
-            {name: 'osu', category: 'Fun', description: 'Get profile information on a osu! user', args: '<username>', permissions: 'Send Messages'},
-            {name: 'poke', category: 'Fun', description: 'Poke somebody', args: 'user', permissions: 'Send Messages'},
-            {name: 'roleplay', category: 'Fun', description: 'Enable/disable roleplay', args: '', permissions: 'Send Messages'},
-            {name: 'snapchat', category: 'Fun', description: 'Get Snapchat info', args: 'username', permissions: 'Send Messages'},
-            {name: 'twitter', category: 'Fun', description: 'Get Twitter info', args: 'username', permissions: 'Send Messages'},
-            {name: 'uwu', category: 'Fun', description: 'Send uwu text', args: '', permissions: 'Send Messages'},
-            {name: 'youtube add', category: 'Fun', description: 'Enable post notifications for a channel', args: 'channel URL', permissions: 'Send Messages'},
-            {name: 'youtube remove', category: 'Fun', description: 'Disable post notifications for a YouTube channel', args: 'channel URL', permissions: 'Send Messages'},
+            // Roleplay Commands - Roleplay commands first
+{name: 'roleplay', category: 'Fun', description: 'Enable/disable roleplay', args: '', permissions: 'Send Messages'},
+{name: 'airkiss', category: 'Fun', description: 'Send an air kiss to someone', args: '[user]', permissions: 'Send Messages'},
+{name: 'angrystare', category: 'Fun', description: 'Angrily stare at someone', args: '[user]', permissions: 'Send Messages'},
+{name: 'bite', category: 'Fun', description: 'Bite someone', args: '[user]', permissions: 'Send Messages'},
+{name: 'bleh', category: 'Fun', description: 'Stick your tongue out at somebody', args: '', permissions: 'Send Messages'},
+{name: 'brofist', category: 'Fun', description: 'Give someone a brofist', args: '[user]', permissions: 'Send Messages'},
+{name: 'celebrate', category: 'Fun', description: 'Celebrate with somebody', args: '', permissions: 'Send Messages'},
+{name: 'cheers', category: 'Fun', description: 'Cheers with somebody', args: '[user]', permissions: 'Send Messages'},
+{name: 'clap', category: 'Fun', description: 'Clap with somebody', args: '[user]', permissions: 'Send Messages'},
+{name: 'confused', category: 'Fun', description: 'Show confusion at somebody', args: '', permissions: 'Send Messages'},
+{name: 'cool', category: 'Fun', description: 'Cool with somebody', args: '', permissions: 'Send Messages'},
+{name: 'cry', category: 'Fun', description: 'Cry with somebody', args: '', permissions: 'Send Messages'},
+{name: 'cuddle', category: 'Fun', description: 'Cuddle with somebody', args: '[user]', permissions: 'Send Messages'},
+{name: 'dance', category: 'Fun', description: 'Dance with somebody', args: '', permissions: 'Send Messages'},
+{name: 'drool', category: 'Fun', description: 'Drool over somebody', args: '', permissions: 'Send Messages'},
+{name: 'freaky', category: 'Fun', description: 'Get freaky with somebody', args: '', permissions: 'Send Messages'},
+{name: 'hug', category: 'Fun', description: 'Give somebody a warm hug', args: '[user]', permissions: 'Send Messages'},
+{name: 'naughty', category: 'Fun', description: 'Be naughty with somebody', args: '', permissions: 'Send Messages'},
+{name: 'poke', category: 'Fun', description: 'Poke somebody', args: '[user]', permissions: 'Send Messages'},
             
             
             // Economy Commands (all restored)
@@ -459,6 +449,18 @@
             {name: 'levels messagemode', category: 'Utility', description: 'Set up where level up messages will send', args: 'mode', permissions: 'Manage Guild'},
             {name: 'levels add', category: 'Utility', description: 'Create level role', args: 'role rank', permissions: 'Manage Guild'},
             {name: 'levels remove', category: 'Utility', description: 'Remove a level role', args: 'rank', permissions: 'Manage Guild'},
+
+            // Voicemaster Commands
+            {name: 'voicemaster', category: 'Voicemaster', description: 'Make temporary voice channels in your server!', args: '', permissions: 'Manage Channels'},
+            {name: 'voicemaster rename', category: 'Voicemaster', description: 'Rename your temporary voice channel', args: '<new_name>', permissions: 'None'},
+            {name: 'voicemaster transfer', category: 'Voicemaster', description: 'Transfer ownership of your voice channel', args: '<user>', permissions: 'None'},
+            {name: 'voicemaster lock', category: 'Voicemaster', description: 'Lock your voice channel', args: '', permissions: 'None'},
+            {name: 'voicemaster unlock', category: 'Voicemaster', description: 'Unlock your voice channel', args: '', permissions: 'None'},
+            {name: 'voicemaster ghost', category: 'Voicemaster', description: 'Hide your voice channel from others', args: '', permissions: 'None'},
+            {name: 'voicemaster unghost', category: 'Voicemaster', description: 'Unhide your voice channel', args: '', permissions: 'None'},
+            {name: 'voicemaster permit', category: 'Voicemaster', description: 'Allow a user to join your locked channel', args: '<user>', permissions: 'None'},
+            {name: 'voicemaster claim', category: 'Voicemaster', description: 'Claim ownership of an abandoned voice channel', args: '', permissions: 'None'},
+            {name: 'voicemaster reveal', category: 'Voicemaster', description: 'Reveal your voice channel to everyone', args: '', permissions: 'None'}
             
             
             
@@ -482,7 +484,6 @@
             {name: 'topcommands', category: 'Miscellaneous', description: 'Most used commands', args: '', permissions: 'Send Messages'},
             {name: 'counter', category: 'Miscellaneous', description: 'Create counters', args: '<name>', permissions: 'Manage Server'},
             {name: 'thread', category: 'Miscellaneous', description: 'Thread management', args: '', permissions: 'Manage Threads'},
-            {name: 'voicemaster', category: 'Miscellaneous', description: 'Voice channel management', args: '', permissions: 'Manage Channels'},
             {name: 'pinger', category: 'Miscellaneous', description: 'Ping management', args: '', permissions: 'Manage Server'},
             {name: 'reaction', category: 'Miscellaneous', description: 'Reaction management', args: '', permissions: 'Manage Messages'},
             {name: 'alias', category: 'Miscellaneous', description: 'Command aliases', args: '', permissions: 'Manage Server'},
