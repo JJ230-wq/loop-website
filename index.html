@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,26 +20,24 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
-
         .gradient-text {
             background: linear-gradient(135deg, #ffffff 0%, #a1a1a1 50%, #ffffff 100%);
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            color: white;
+            animation: shimmer 3s ease-in-out infinite;
         }
-
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
         .glass-morphism {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -51,32 +48,227 @@
             background: #333;
             border-radius: 10px;
         }
-        
-        #root {
-            background-color: #000000;
-            min-height: 100vh;
-        }
-
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
         }
         .fade-in {
             animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+            color: #000;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        .hero-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+            filter: blur(80px);
+            animation: float 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1;
+        }
     </style>
-    <script type="importmap">
-    {
-      "imports": {
-        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-        "react/": "https://esm.sh/react@^19.2.3/",
-        "react": "https://esm.sh/react@^19.2.3"
-      }
-    }
-    </script>
 </head>
 <body>
-    <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-morphism">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold gradient-text">Loop</div>
+            <div class="flex gap-6 items-center">
+                <a href="#features" class="text-gray-300 hover:text-white transition">Features</a>
+                <a href="commands.html" class="text-gray-300 hover:text-white transition">Commands</a>
+                <a href="#about" class="text-gray-300 hover:text-white transition">About</a>
+                <a href="#" class="btn-primary" style="padding: 0.5rem 1.5rem;">Invite Bot</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div class="hero-glow" style="top: -200px; left: -200px;"></div>
+        <div class="hero-glow" style="bottom: -200px; right: -200px; animation-delay: -4s;"></div>
+        
+        <div class="relative z-10 text-center px-6 fade-in">
+            <h1 class="text-7xl md:text-8xl font-black gradient-text mb-6">
+                Loop Bot
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-400 mb-12 max-w-2xl mx-auto">
+                Advanced moderation, powerful commands, and seamless server management for Discord communities
+            </p>
+            <div class="flex gap-4 justify-center flex-wrap">
+                <a href="#" class="btn-primary">Add to Discord</a>
+                <a href="commands.html" class="btn-secondary">View Commands</a>
+            </div>
+            
+            <!-- Stats -->
+            <div class="mt-20 grid grid-cols-3 gap-8 max-w-3xl mx-auto">
+                <div class="fade-in" style="animation-delay: 0.2s;">
+                    <div class="stat-number gradient-text">500+</div>
+                    <div class="text-gray-500 mt-2">Servers</div>
+                </div>
+                <div class="fade-in" style="animation-delay: 0.4s;">
+                    <div class="stat-number gradient-text">200+</div>
+                    <div class="text-gray-500 mt-2">Commands</div>
+                </div>
+                <div class="fade-in" style="animation-delay: 0.6s;">
+                    <div class="stat-number gradient-text">99.9%</div>
+                    <div class="text-gray-500 mt-2">Uptime</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-5xl font-bold text-center mb-4 gradient-text">Powerful Features</h2>
+            <p class="text-center text-gray-400 mb-16 text-lg">Everything you need to manage your Discord server</p>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="feature-card glass-morphism rounded-2xl p-8 fade-in" style="animation-delay: 0.1s;">
+                    <div class="text-4xl mb-4">🛡️</div>
+                    <h3 class="text-2xl font-bold mb-3">Advanced Moderation</h3>
+                    <p class="text-gray-400">Comprehensive moderation tools including bans, kicks, mutes, warnings, and automated anti-spam filters.</p>
+                </div>
+                
+                <div class="feature-card glass-morphism rounded-2xl p-8 fade-in" style="animation-delay: 0.2s;">
+                    <div class="text-4xl mb-4">🎨</div>
+                    <h3 class="text-2xl font-bold mb-3">Customization</h3>
+                    <p class="text-gray-400">Personalize your server with custom prefixes, welcome messages, booster roles, and more.</p>
+                </div>
+                
+                <div class="feature-card glass-morphism rounded-2xl p-8 fade-in" style="animation-delay: 0.3s;">
+                    <div class="text-4xl mb-4">🔒</div>
+                    <h3 class="text-2xl font-bold mb-3">Security</h3>
+                    <p class="text-gray-400">Antinuke and antiraid protection to keep your server safe from malicious attacks and raids.</p>
+                </div>
+                
+                <div class="feature-card glass-morphism rounded-2xl p-8 fade-in" style="animation-delay: 0.4s;">
+                    <div class="text-4xl mb-4">📊</div>
+                    <h3 class="text-2xl font-bold mb-3">Logging</h3>
+                    <p class="text-gray-400">Detailed server logs for all important events, keeping you informed of everything happening.</p>
+                </div>
+                
+                <div class="feature-card glass-morphism rounded-2xl p-8 fade-in" style="animation-delay: 0.5s;">
+                    <div class="text-4xl mb-4">🎉</div>
+                    <h3 class="text-2xl font-bold mb-3">Fun & Engagement</h3>
+                    <p class="text-gray-400">Roleplay commands, giveaways, starboard, and birthday celebrations to keep your community active.</p>
+                </div>
+                
+                <div class="feature-card glass-morphism rounded-2xl p-8 fade-in" style="animation-delay: 0.6s;">
+                    <div class="text-4xl mb-4">🎵</div>
+                    <h3 class="text-2xl font-bold mb-3">Last.fm Integration</h3>
+                    <p class="text-gray-400">Share your music taste and compare with friends using Last.fm commands and customization.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commands Preview -->
+    <section class="py-32 px-6 bg-gradient-to-b from-transparent to-black/50">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-5xl font-bold mb-4 gradient-text">200+ Commands</h2>
+            <p class="text-gray-400 mb-12 text-lg">Organized into 10+ categories for easy navigation</p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="glass-morphism rounded-xl p-6 hover:bg-white/5 transition">
+                    <div class="text-3xl mb-2">⚙️</div>
+                    <div class="font-semibold">Server</div>
+                    <div class="text-gray-500 text-sm">60+ commands</div>
+                </div>
+                <div class="glass-morphism rounded-xl p-6 hover:bg-white/5 transition">
+                    <div class="text-3xl mb-2">🔨</div>
+                    <div class="font-semibold">Moderation</div>
+                    <div class="text-gray-500 text-sm">80+ commands</div>
+                </div>
+                <div class="glass-morphism rounded-xl p-6 hover:bg-white/5 transition">
+                    <div class="text-3xl mb-2">🛡️</div>
+                    <div class="font-semibold">Antinuke</div>
+                    <div class="text-gray-500 text-sm">10+ commands</div>
+                </div>
+                <div class="glass-morphism rounded-xl p-6 hover:bg-white/5 transition">
+                    <div class="text-3xl mb-2">🎭</div>
+                    <div class="font-semibold">Roleplay</div>
+                    <div class="text-gray-500 text-sm">15+ commands</div>
+                </div>
+            </div>
+            
+            <a href="commands.html" class="btn-primary">View All Commands</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-32 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-5xl font-bold mb-6 gradient-text">Built for Communities</h2>
+            <p class="text-xl text-gray-400 leading-relaxed mb-8">
+                Loop is designed to provide server administrators with the most comprehensive toolset for managing Discord communities. 
+                From basic moderation to advanced security features, Loop has everything you need in one powerful bot.
+            </p>
+            <p class="text-lg text-gray-500">
+                Trusted by thousands of servers worldwide • 99.9% uptime • 24/7 support
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-2xl font-bold gradient-text">Loop</div>
+            <div class="flex gap-8 text-gray-400">
+                <a href="commands.html" class="hover:text-white transition">Commands</a>
+                <a href="#" class="hover:text-white transition">Support Server</a>
+                <a href="#" class="hover:text-white transition">Documentation</a>
+                <a href="#" class="hover:text-white transition">Privacy Policy</a>
+            </div>
+            <div class="text-gray-500 text-sm">
+                © 2024 Loop Bot. All rights reserved.
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
