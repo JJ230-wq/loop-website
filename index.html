@@ -19,16 +19,7 @@
             color: #ffffff;
             margin: 0;
             overflow-x: hidden;
-        }
-
-        /* Essential Animations to prevent invisible content */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
+            -webkit-font-smoothing: antialiased;
         }
 
         .gradient-text {
@@ -36,7 +27,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            color: white; /* Fallback */
+            color: white;
         }
 
         .glass-morphism {
@@ -49,7 +40,7 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Custom Scrollbar for the page */
+        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -64,6 +55,15 @@
         #root {
             background-color: #000000;
             min-height: 100vh;
+        }
+
+        /* Safe fade-in that doesn't hide content if it fails */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal {
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
     </style>
     <script type="importmap">
