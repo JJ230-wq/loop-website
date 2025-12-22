@@ -1,7 +1,8 @@
+
 import { Command } from './types';
 
 export const COMMANDS: Command[] = [
-    // Server Commands
+    // Server Commands (Including Birthday & Timezone)
     {name: 'prefix', category: 'Server', description: 'View or change the server prefix', args: '[new_prefix]', permissions: 'Manage Server'},
     {name: 'prefixself', category: 'Server', description: 'Set personal prefix across all servers with loop', args: '<prefix>', permissions: 'Send Messages'},
     {name: 'prefix remove', category: 'Server', description: 'Remove prefix', args: '<prefix>', permissions: 'Manage Server'},
