@@ -3,272 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loop - Advanced Discord Bot</title>
-    <meta name="description" content="Advanced moderation, fun commands, and economy system for Discord.">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Loop</title>
     <style>
-        :root {
-            background-color: #000000;
-            color-scheme: dark;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #000000;
-            color: #ffffff;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0a0a0a;
+            color: white;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .gradient-text {
-            background: linear-gradient(135deg, #ffffff 0%, #a1a1a1 50%, #ffffff 100%);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: shimmer 3s ease-in-out infinite;
-        }
-        @keyframes shimmer {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        .glass-morphism {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #000;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 10px;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        .fade-in {
-            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        .feature-card {
-            transition: all 0.3s ease;
-        }
-        .feature-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
-            color: #000;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            padding: 1rem 2rem;
-            border-radius: 0.75rem;
-            display: inline-block;
-            text-decoration: none;
-        }
-        .btn-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2);
-        }
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            padding: 1rem 2rem;
-            border-radius: 0.75rem;
-            display: inline-block;
-            text-decoration: none;
-        }
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-        .hero-glow {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
-            filter: blur(80px);
-            animation: float 8s ease-in-out infinite;
+
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
+            z-index: 1;
         }
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 800;
-            line-height: 1;
+
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 6rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+            text-transform: lowercase;
+        }
+
+        .explore-btn {
+            background: white;
+            color: #0a0a0a;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 3rem;
+        }
+
+        .explore-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .stats {
+            display: flex;
+            gap: 4rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stat-item {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .stat-item span {
+            color: #888;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 4rem;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass-morphism">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold gradient-text">Loop</div>
-            <div class="flex gap-6 items-center">
-                <a href="#features" class="text-gray-300 hover:text-white transition">Features</a>
-                <a href="commands.html" class="text-gray-300 hover:text-white transition">Commands</a>
-                <a href="#about" class="text-gray-300 hover:text-white transition">About</a>
-                <a href="#" class="btn-primary" style="padding: 0.5rem 1.5rem;">Invite Bot</a>
-            </div>
+    <div id="particles"></div>
+    
+    <div class="container">
+        <h1>loop</h1>
+        <button class="explore-btn">Explore Commands</button>
+        <div class="stats">
+            <div class="stat-item"><span>Servers</span> 30+</div>
+            <div class="stat-item"><span>Users</span> 80k+</div>
         </div>
-    </nav>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div class="hero-glow" style="top: -200px; left: -200px;"></div>
-        <div class="hero-glow" style="bottom: -200px; right: -200px; animation-delay: -4s;"></div>
-        
-        <div class="relative z-10 text-center px-6 fade-in">
-            <h1 class="text-7xl md:text-8xl font-black gradient-text mb-6">
-                Loop Bot
-            </h1>
-            <p class="text-xl md:text-2xl text-gray-400 mb-12 max-w-2xl mx-auto">
-                Advanced moderation, powerful commands, and seamless server management for Discord communities
-            </p>
-            <div class="flex gap-4 justify-center flex-wrap">
-                <a href="#" class="btn-primary">Add to Discord</a>
-                <a href="commands.html" class="btn-secondary">View Commands</a>
-            </div>
+    <script>
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 100;
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
             
-            <!-- Stats -->
-            <div class="mt-20 grid grid-cols-3 gap-8 max-w-3xl mx-auto">
-                <div class="fade-in" style="animation-delay: 0.2s;">
-                    <div class="stat-number gradient-text">500+</div>
-                    <div class="text-gray-500 mt-2">Servers</div>
-                </div>
-                <div class="fade-in" style="animation-delay: 0.4s;">
-                    <div class="stat-number gradient-text">200+</div>
-                    <div class="text-gray-500 mt-2">Commands</div>
-                </div>
-                <div class="fade-in" style="animation-delay: 0.6s;">
-                    <div class="stat-number gradient-text">99.9%</div>
-                    <div class="text-gray-500 mt-2">Uptime</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="py-32 px-6">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-5xl font-bold text-center mb-4 gradient-text">Powerful Features</h2>
-            <p class="text-center text-gray-400 mb-16 text-lg">Everything you need to manage your Discord server</p>
+            const size = Math.random() * 4 + 2;
+            const startX = Math.random() * window.innerWidth;
+            const duration = Math.random() * 3 + 2;
+            const delay = Math.random() * 5;
             
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="feature-card glass-morphism rounded-2xl p-8 fade-in" style="animation-delay: 0.1s;">
-                    <div class="text-4xl mb-4">🛡️</div>
-                    <h3 class="text-2xl font-bold mb-3">Advanced Moderation</h3>
-                    <p class="text-gray-400">Comprehensive moderation tools including bans, kicks, mutes, warnings, and automated anti-spam filters.</p>
-                </div>
-                
-                <div class="feature-card glass-morphism rounded-2xl p-8 fade-in" style="animation-delay: 0.2s;">
-                    <div class="text-4xl mb-4">🎨</div>
-                    <h3 class="text-2xl font-bold mb-3">Customization</h3>
-                    <p class="text-gray-400">Personalize your server with custom prefixes, welcome messages, booster roles, and more.</p>
-                </div>
-                
-                <div class="feature-card glass-morphism rounded-2xl p-8 fade-in" style="animation-delay: 0.3s;">
-                    <div class="text-4xl mb-4">🔒</div>
-                    <h3 class="text-2xl font-bold mb-3">Security</h3>
-                    <p class="text-gray-400">Antinuke and antiraid protection to keep your server safe from malicious attacks and raids.</p>
-                </div>
-                
-                <div class="feature-card glass-morphism rounded-2xl p-8 fade-in" style="animation-delay: 0.4s;">
-                    <div class="text-4xl mb-4">📊</div>
-                    <h3 class="text-2xl font-bold mb-3">Logging</h3>
-                    <p class="text-gray-400">Detailed server logs for all important events, keeping you informed of everything happening.</p>
-                </div>
-                
-                <div class="feature-card glass-morphism rounded-2xl p-8 fade-in" style="animation-delay: 0.5s;">
-                    <div class="text-4xl mb-4">🎉</div>
-                    <h3 class="text-2xl font-bold mb-3">Fun & Engagement</h3>
-                    <p class="text-gray-400">Roleplay commands, giveaways, starboard, and birthday celebrations to keep your community active.</p>
-                </div>
-                
-                <div class="feature-card glass-morphism rounded-2xl p-8 fade-in" style="animation-delay: 0.6s;">
-                    <div class="text-4xl mb-4">🎵</div>
-                    <h3 class="text-2xl font-bold mb-3">Last.fm Integration</h3>
-                    <p class="text-gray-400">Share your music taste and compare with friends using Last.fm commands and customization.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Commands Preview -->
-    <section class="py-32 px-6 bg-gradient-to-b from-transparent to-black/50">
-        <div class="max-w-7xl mx-auto text-center">
-            <h2 class="text-5xl font-bold mb-4 gradient-text">200+ Commands</h2>
-            <p class="text-gray-400 mb-12 text-lg">Organized into 10+ categories for easy navigation</p>
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${startX}px`;
+            particle.style.top = `-10px`;
+            particle.style.opacity = Math.random() * 0.5 + 0.3;
+            particle.style.animationDuration = `${duration}s`;
+            particle.style.animationDelay = `${delay}s`;
             
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-                <div class="glass-morphism rounded-xl p-6 hover:bg-white/5 transition">
-                    <div class="text-3xl mb-2">⚙️</div>
-                    <div class="font-semibold">Server</div>
-                    <div class="text-gray-500 text-sm">60+ commands</div>
-                </div>
-                <div class="glass-morphism rounded-xl p-6 hover:bg-white/5 transition">
-                    <div class="text-3xl mb-2">🔨</div>
-                    <div class="font-semibold">Moderation</div>
-                    <div class="text-gray-500 text-sm">80+ commands</div>
-                </div>
-                <div class="glass-morphism rounded-xl p-6 hover:bg-white/5 transition">
-                    <div class="text-3xl mb-2">🛡️</div>
-                    <div class="font-semibold">Antinuke</div>
-                    <div class="text-gray-500 text-sm">10+ commands</div>
-                </div>
-                <div class="glass-morphism rounded-xl p-6 hover:bg-white/5 transition">
-                    <div class="text-3xl mb-2">🎭</div>
-                    <div class="font-semibold">Roleplay</div>
-                    <div class="text-gray-500 text-sm">15+ commands</div>
-                </div>
-            </div>
+            particlesContainer.appendChild(particle);
             
-            <a href="commands.html" class="btn-primary">View All Commands</a>
-        </div>
-    </section>
+            setTimeout(() => {
+                particle.remove();
+                createParticle();
+            }, (duration + delay) * 1000);
+        }
 
-    <!-- About Section -->
-    <section id="about" class="py-32 px-6">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-5xl font-bold mb-6 gradient-text">Built for Communities</h2>
-            <p class="text-xl text-gray-400 leading-relaxed mb-8">
-                Loop is designed to provide server administrators with the most comprehensive toolset for managing Discord communities. 
-                From basic moderation to advanced security features, Loop has everything you need in one powerful bot.
-            </p>
-            <p class="text-lg text-gray-500">
-                Trusted by thousands of servers worldwide • 99.9% uptime • 24/7 support
-            </p>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="border-t border-white/10 py-12 px-6">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="text-2xl font-bold gradient-text">Loop</div>
-            <div class="flex gap-8 text-gray-400">
-                <a href="commands.html" class="hover:text-white transition">Commands</a>
-                <a href="#" class="hover:text-white transition">Support Server</a>
-                <a href="#" class="hover:text-white transition">Documentation</a>
-                <a href="#" class="hover:text-white transition">Privacy Policy</a>
-            </div>
-            <div class="text-gray-500 text-sm">
-                © 2024 Loop Bot. All rights reserved.
-            </div>
-        </div>
-    </footer>
+        for (let i = 0; i < particleCount; i++) {
+            createParticle();
+        }
+    </script>
 </body>
 </html>
