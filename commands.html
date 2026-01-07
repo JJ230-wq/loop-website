@@ -1,264 +1,447 @@
-import { Command } from './types';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-export const COMMANDS: Command[] = [
-    // Server Commands (Including Birthday & Timezone)
-    {name: 'prefix', category: 'Server', description: 'View or change the server prefix', args: '[new_prefix]', permissions: 'Manage Server'},
-    {name: 'prefixself', category: 'Server', description: 'Set personal prefix across all servers with loop', args: '<prefix>', permissions: 'Send Messages'},
-    {name: 'prefix remove', category: 'Server', description: 'Remove prefix', args: '<prefix>', permissions: 'Manage Server'},
-    {name: 'prefix set', category: 'Server', description: 'Set command prefix for server', args: '<prefix>', permissions: 'Manage Server'},
-    {name: 'boosterrole', category: 'Server', description: 'Manage booster roles', args: '', permissions: 'Manage Server'},
-    {name: 'boosterrole rename', category: 'Server', description: 'Rename booster role', args: '<name>', permissions: 'Manage Server'},
-    {name: 'boosterrole base', category: 'Server', description: 'Set the base role for where booster roles will go under', args: '@role', permissions: 'Administrator'},
-    {name: 'boosterrole color', category: 'Server', description: 'Set booster role color', args: '<color>', permissions: 'Manage Server'},
-    {name: 'boosterrole award', category: 'Server', description: 'Award booster perks', args: '<user>', permissions: 'Manage Server'},
-    {name: 'boosterrole award view', category: 'Server', description: 'View booster awards', args: '', permissions: 'Manage Server'},
-    {name: 'boosterrole award remove', category: 'Server', description: 'Remove booster award', args: '<user>', permissions: 'Manage Server'},
-    {name: 'boosterrole icon', category: 'Server', description: 'Set booster role icon', args: '<image>', permissions: 'Manage Server'},
-    {name: 'settings', category: 'Server', description: 'Server Configuration', args: '', permissions: 'Manage Server'},
-    {name: 'settings modlog', category: 'Server', description: 'Set moderation log channel', args: '<channel>', permissions: 'Manage Server'},
-    {name: 'settings config', category: 'Server', description: 'View server configuration', args: '', permissions: 'Manage Server'},
-    {name: 'settings resetcases', category: 'Server', description: 'Reset moderation cases', args: '', permissions: 'Administrator'},
-    {name: 'settings staff', category: 'Server', description: 'Set staff role(s)', args: '', permissions: 'Administrator'},
-    {name: 'settings staff list', category: 'Server', description: 'List staff roles', args: '', permissions: 'Manage Server'},
-    {name: 'boosts', category: 'Server', description: 'Set up boost messages in one or multiple channels', args: '', permissions: 'Manage Server'},
-    {name: 'boosts add', category: 'Server', description: 'Add boost message', args: '<channel> <message>', permissions: 'Manage Server'},
-    {name: 'boosts view', category: 'Server', description: 'View boost messages', args: '', permissions: 'Manage Server'},
-    {name: 'boosts variables', category: 'Server', description: 'View boost message variables', args: '', permissions: 'Manage Server'},
-    {name: 'boosts remove', category: 'Server', description: 'Remove boost message', args: '<channel>', permissions: 'Manage Server'},
-    {name: 'alias', category: 'Server', description: 'Create command aliases', args: '', permissions: 'Manage Server'},
-    {name: 'alias view', category: 'Server', description: 'View command alias', args: '<alias>', permissions: 'Manage Server'},
-    {name: 'alias list', category: 'Server', description: 'List all command aliases', args: '', permissions: 'Manage Server'},
-    {name: 'alias add', category: 'Server', description: 'Add command alias', args: '<command> <alias>', permissions: 'Manage Server'},
-    {name: 'alias reset', category: 'Server', description: 'Reset all command aliases', args: '', permissions: 'Manage Server'},
-    {name: 'alias remove', category: 'Server', description: 'Remove command alias', args: '<alias>', permissions: 'Manage Server'},
-    {name: 'stickymessage', category: 'Server', description: 'Make message sticky in channel', args: '', permissions: 'Manage Messages'},
-    {name: 'stickymessage remove', category: 'Server', description: 'Remove sticky message', args: '<channel>', permissions: 'Manage Messages'},
-    {name: 'stickymessage view', category: 'Server', description: 'View sticky message', args: '<channel>', permissions: 'Manage Messages'},
-    {name: 'stickymessage add', category: 'Server', description: 'Add sticky message', args: '<channel> <message>', permissions: 'Manage Messages'},
-    {name: 'ignore', category: 'Server', description: 'Ignore a channel or user', args: '<channel/user>', permissions: 'Manage Server'},
-    {name: 'ignore list', category: 'Server', description: 'List ignored channels/users', args: '', permissions: 'Manage Server'},
-    {name: 'ignore add', category: 'Server', description: 'Add channel/user to ignore list', args: '<channel/user>', permissions: 'Manage Server'},
-    {name: 'ignore remove', category: 'Server', description: 'Remove from ignore list', args: '<channel/user>', permissions: 'Manage Server'},
-    {name: 'seticon', category: 'Server', description: 'Set server icon', args: '<image>', permissions: 'Manage Server'},
-    {name: 'setsplashbackground', category: 'Server', description: 'Set splash background', args: '<image>', permissions: 'Manage Server'},
-    {name: 'setbanner', category: 'Server', description: 'Set server banner', args: '<image>', permissions: 'Manage Server'},
-    {name: 'firstmessage', category: 'Server', description: 'Get first message in channel', args: '', permissions: 'None'},
-    {name: 'customize', category: 'Server', description: 'Customize bots appearance', args: '', permissions: 'Manage Server'},
-    {name: 'customize bio', category: 'Server', description: 'Customize bot bio', args: '<text>', permissions: 'Manage Server'},
-    {name: 'customize banner', category: 'Server', description: 'Customize bot banner', args: '<image>', permissions: 'Manage Server'},
-    {name: 'customize avatar', category: 'Server', description: 'Customize bot avatar', args: '<image>', permissions: 'Manage Server'},
-    {name: 'birthday set', category: 'Server', description: 'Set your birthday', args: '<date>', permissions: 'Send Messages'},
-    {name: 'birthday channel', category: 'Server', description: 'Set the birthday channel', args: '<channel>', permissions: 'Manage Server'},
-    {name: 'birthday role', category: 'Server', description: 'Set the birthday role', args: '<role>', permissions: 'Manage Server'},
-    {name: 'birthday celebrate', category: 'Server', description: 'Limit birthday celebration to members in certain roles', args: '<roles>', permissions: 'Manage Server'},
-    {name: 'birthday config', category: 'Server', description: "View guild's configuration for birthday system", args: '', permissions: 'Manage Server'},
-    {name: 'birthday list', category: 'Server', description: "View a list of every member's birthday", args: '', permissions: 'Send Messages'},
-    {name: 'timezone', category: 'Server', description: 'View your current time or someone elses', args: '[user]', permissions: 'Send Messages'},
-    {name: 'timezone set', category: 'Server', description: 'Set your timezone', args: '<timezone>', permissions: 'Send Messages'},
-    {name: 'timezone list', category: 'Server', description: "View a list of every member's timezone", args: '', permissions: 'Send Messages'},
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0a0a0a;
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
 
-    // Moderation Commands
-    {name: 'welcome', category: 'Moderation', description: 'Manage welcome messages', args: '', permissions: 'Manage Server'},
-    {name: 'welcome remove', category: 'Moderation', description: 'Remove a welcome message from a channel', args: '<channel>', permissions: 'Manage Server'},
-    {name: 'welcome view', category: 'Moderation', description: 'View welcome message for a channel', args: '<channel>', permissions: 'Manage Server'},
-    {name: 'welcome variables', category: 'Moderation', description: 'View all available variables for welcome messages', args: '', permissions: 'Manage Server'},
-    {name: 'welcome add', category: 'Moderation', description: 'Add a welcome message for a channel', args: '<channel> <message>', permissions: 'Manage Server'},
-    {name: 'goodbye', category: 'Moderation', description: 'Manage goodbye messages', args: '', permissions: 'Manage Server'},
-    {name: 'goodbye view', category: 'Moderation', description: 'View goodbye message for a channel', args: '<channel>', permissions: 'Manage Server'},
-    {name: 'goodbye remove', category: 'Moderation', description: 'Remove a goodbye message from a channel', args: '<channel>', permissions: 'Manage Server'},
-    {name: 'goodbye variables', category: 'Moderation', description: 'View all available variables for goodbye messages', args: '', permissions: 'Manage Server'},
-    {name: 'goodbye add', category: 'Moderation', description: 'Add a goodbye message for a channel', args: '<channel> <message>', permissions: 'Manage Server'},
-    {name: 'evoke', category: 'Moderation', description: 'Change punishment messages for DM or command response', args: '<action>', permissions: 'Manage Server'},
-    {name: 'filter', category: 'Moderation', description: 'View options to keep your chat clean', args: '', permissions: 'Manage Server'},
-    {name: 'filter add', category: 'Moderation', description: 'Add word to filter', args: '<word>', permissions: 'Manage Server'},
-    {name: 'filter remove', category: 'Moderation', description: 'Remove word from filter', args: '<word>', permissions: 'Manage Server'},
-    {name: 'filter spam', category: 'Moderation', description: 'Delete messages from users that send messages too fast', args: '', permissions: 'Manage Server'},
-    {name: 'filter spam exempt', category: 'Moderation', description: 'Exempt user/role from spam filter', args: '<user/role>', permissions: 'Manage Server'},
-    {name: 'filter spam exempt list', category: 'Moderation', description: 'List spam filter exemptions', args: '', permissions: 'Manage Server'},
-    {name: 'filter snipe', category: 'Moderation', description: 'Configure snipe filter', args: '', permissions: 'Manage Server'},
-    {name: 'filter caps', category: 'Moderation', description: 'Delete messages that contain many uppercase characters', args: '', permissions: 'Manage Server'},
-    {name: 'filter caps exempt', category: 'Moderation', description: 'Exempt user/role from caps filter', args: '<user/role>', permissions: 'Manage Server'},
-    {name: 'filter caps exempt list', category: 'Moderation', description: 'List caps filter exemptions', args: '', permissions: 'Manage Server'},
-    {name: 'filter link', category: 'Moderation', description: 'Delete any messages that contain a link', args: '', permissions: 'Manage Server'},
-    {name: 'filter links exempt', category: 'Moderation', description: 'Exempt user/role from link filter', args: '<user/role>', permissions: 'Manage Server'},
-    {name: 'filter links exempt list', category: 'Moderation', description: 'List link filter exemptions', args: '', permissions: 'Manage Server'},
-    {name: 'filter invites', category: 'Moderation', description: 'Delete any message that contains a server link', args: '', permissions: 'Manage Server'},
-    {name: 'filter invites exempt', category: 'Moderation', description: 'Exempt user/role from invite filter', args: '<user/role>', permissions: 'Manage Server'},
-    {name: 'filter invites exempt list', category: 'Moderation', description: 'List invite filter exemptions', args: '', permissions: 'Manage Server'},
-    {name: 'filter emoji', category: 'Moderation', description: 'Delete any message exceeding the threshold for emojis', args: '', permissions: 'Manage Server'},
-    {name: 'filter emoji exempt', category: 'Moderation', description: 'Exempt user/role from emoji filter', args: '<user/role>', permissions: 'Manage Server'},
-    {name: 'filter emoji exempt list', category: 'Moderation', description: 'List emoji filter exemptions', args: '', permissions: 'Manage Server'},
-    {name: 'autoresponder', category: 'Moderation', description: 'Set auto responses', args: '', permissions: 'Manage Server'},
-    {name: 'autoresponder update', category: 'Moderation', description: 'Update auto response', args: '<trigger> <response>', permissions: 'Manage Server'},
-    {name: 'autoresponder reset', category: 'Moderation', description: 'Reset all auto responses', args: '', permissions: 'Manage Server'},
-    {name: 'autoresponder add', category: 'Moderation', description: 'Add auto response', args: '<trigger> <response>', permissions: 'Manage Server'},
-    {name: 'autoresponder list', category: 'Moderation', description: 'List all auto responses', args: '', permissions: 'Manage Server'},
-    {name: 'autoresponder remove', category: 'Moderation', description: 'Remove auto response', args: '<trigger>', permissions: 'Manage Server'},
-    {name: 'enablecommand', category: 'Moderation', description: 'Enable a command', args: '<command>', permissions: 'Manage Server'},
-    {name: 'enablecommand all', category: 'Moderation', description: 'Enable all commands', args: '', permissions: 'Manage Server'},
-    {name: 'disablecommand', category: 'Moderation', description: 'Disable a command', args: '<command>', permissions: 'Manage Server'},
-    {name: 'disablecommand all', category: 'Moderation', description: 'Disable all commands', args: '', permissions: 'Manage Server'},
-    {name: 'enablemodule', category: 'Moderation', description: 'Enable a module', args: '<module>', permissions: 'Manage Server'},
-    {name: 'enablemodule all', category: 'Moderation', description: 'Enable all modules', args: '', permissions: 'Manage Server'},
-    {name: 'disablemodule', category: 'Moderation', description: 'Disable a module', args: '<module>', permissions: 'Manage Server'},
-    {name: 'disablemodule list', category: 'Moderation', description: 'List disabled modules', args: '', permissions: 'Manage Server'},
-    {name: 'disablemodule all', category: 'Moderation', description: 'Disable all modules', args: '', permissions: 'Manage Server'},
-    {name: 'badge', category: 'Moderation', description: 'Reward members for setting the guild tag', args: '', permissions: 'Manage Server'},
-    {name: 'badge role', category: 'Moderation', description: 'Manage badge roles', args: '', permissions: 'Manage Server'},
-    {name: 'badge role add', category: 'Moderation', description: 'Add badge role', args: '<role> <badge>', permissions: 'Manage Server'},
-    {name: 'badge role remove', category: 'Moderation', description: 'Remove badge role', args: '<role>', permissions: 'Manage Server'},
-    {name: 'badge channel', category: 'Moderation', description: 'Set badge channel', args: '<channel>', permissions: 'Manage Server'},
-    {name: 'badge message', category: 'Moderation', description: 'Set badge message', args: '<message>', permissions: 'Manage Server'},
-    {name: 'badge message view', category: 'Moderation', description: 'View badge message', args: '', permissions: 'Manage Server'},
-    {name: 'tempban', category: 'Moderation', description: 'Temporarily ban user', args: '<user> <duration> [reason]', permissions: 'Ban Members'},
-    {name: 'remind', category: 'Moderation', description: 'Set a reminder', args: '<time> <message>', permissions: 'Send Messages'},
-    {name: 'remind remove', category: 'Moderation', description: 'Remove a reminder', args: '<id>', permissions: 'Send Messages'},
-    {name: 'remind list', category: 'Moderation', description: 'List all reminders', args: '', permissions: 'Send Messages'},
-    {name: 'reminders', category: 'Moderation', description: 'View all reminders', args: '', permissions: 'Send Messages'},
-    {name: 'warn', category: 'Moderation', description: 'Warn a user', args: '<user> <reason>', permissions: 'Manage Messages'},
-    {name: 'thread', category: 'Moderation', description: 'Thread management', args: '', permissions: 'Manage Threads'},
-    {name: 'thread unlock', category: 'Moderation', description: 'Unlock thread', args: '[thread]', permissions: 'Manage Threads'},
-    {name: 'thread add', category: 'Moderation', description: 'Add user to thread', args: '<user>', permissions: 'Manage Threads'},
-    {name: 'thread lock', category: 'Moderation', description: 'Lock thread', args: '[thread]', permissions: 'Manage Threads'},
-    {name: 'thread remove', category: 'Moderation', description: 'Remove user from thread', args: '<user>', permissions: 'Manage Threads'},
-    {name: 'thread rename', category: 'Moderation', description: 'Rename thread', args: '<name>', permissions: 'Manage Threads'},
-    {name: 'lockdown all', category: 'Moderation', description: 'Lock all channels in the server', args: '', permissions: 'Manage Channels'},
-    {name: 'lockdown role', category: 'Moderation', description: 'Lockdown by role', args: '<role>', permissions: 'Manage Channels'},
-    {name: 'unlock all', category: 'Moderation', description: 'Unlock all channels in the server', args: '', permissions: 'Manage Channels'},
-    {name: 'unlock', category: 'Moderation', description: 'Unlock a channel', args: '[channel]', permissions: 'Manage Channels'},
-    {name: 'stripstaff', category: 'Moderation', description: 'Remove staff roles from a user', args: '<user>', permissions: 'Manage Roles'},
-    {name: 'jail', category: 'Moderation', description: 'Jails the mentioned user', args: '<user> [reason]', permissions: 'Manage Roles'},
-    {name: 'modstats', category: 'Moderation', description: 'Check moderation statistics', args: '[user]', permissions: 'Manage Messages'},
-    {name: 'warnings', category: 'Moderation', description: 'Check user warnings', args: '[user]', permissions: 'Manage Messages'},
-    {name: 'history', category: 'Moderation', description: 'View user moderation history', args: '<user>', permissions: 'Manage Messages'},
-    {name: 'history remove', category: 'Moderation', description: 'Remove case from history', args: '<case>', permissions: 'Manage Messages'},
-    {name: 'history removeall', category: 'Moderation', description: 'Remove all cases from user', args: '<user>', permissions: 'Administrator'},
-    {name: 'reason', category: 'Moderation', description: 'Updates the reason on a case log', args: '<case> <reason>', permissions: 'Manage Messages'},
-    {name: 'timeout', category: 'Moderation', description: 'Mutes the mentioned member using Discords timeout feature', args: '<user> <time>', permissions: 'Moderate Members'},
-    {name: 'untimeout', category: 'Moderation', description: 'Remove timeout from a user', args: '<user>', permissions: 'Moderate Members'},
-    {name: 'mute', category: 'Moderation', description: 'Mute a user in the server', args: '<user> [time]', permissions: 'Manage Roles'},
-    {name: 'unmute', category: 'Moderation', description: 'Unmute a user in the server', args: '<user>', permissions: 'Manage Roles'},
-    {name: 'imute', category: 'Moderation', description: 'Image mute a user', args: '<user> [time]', permissions: 'Manage Roles'},
-    {name: 'rmute', category: 'Moderation', description: 'Reaction mute a user', args: '<user> [time]', permissions: 'Manage Roles'},
-    {name: 'hardban', category: 'Moderation', description: 'Permanently ban a user', args: '<user> [reason]', permissions: 'Ban Members'},
-    {name: 'hardban list', category: 'Moderation', description: 'List all hardbanned users', args: '', permissions: 'Ban Members'},
-    {name: 'unban', category: 'Moderation', description: 'Unban a user from the server', args: '<user>', permissions: 'Ban Members'},
-    {name: 'softban', category: 'Moderation', description: 'Softbans the user and deletes 1 day of messages', args: '<user> [reason]', permissions: 'Ban Members'},
-    {name: 'ban', category: 'Moderation', description: 'Bans the mentioned user', args: '<user> [reason]', permissions: 'Ban Members'},
-    {name: 'unjail', category: 'Moderation', description: 'Unjails a user', args: '<user>', permissions: 'Manage Roles'},
-    {name: 'temprole', category: 'Moderation', description: 'Give temporary role', args: '<user> <role> <time>', permissions: 'Manage Roles'},
-    {name: 'temprole list', category: 'Moderation', description: 'List temporary roles', args: '', permissions: 'Manage Roles'},
-    {name: 'role', category: 'Moderation', description: 'Manage roles', args: '<user> <role>', permissions: 'Manage Roles'},
-    {name: 'role has', category: 'Moderation', description: 'Add a role to members with a specific role', args: '<sourceRole> <targetRole>', permissions: 'Manage Roles'},
-    {name: 'role has remove', category: 'Moderation', description: 'Remove a role from members with a specific role', args: '<sourceRole> <targetRole>', permissions: 'Manage Roles'},
-    {name: 'role humans', category: 'Moderation', description: 'Give role to all humans', args: '<role>', permissions: 'Manage Roles'},
-    {name: 'role humans remove', category: 'Moderation', description: 'Remove role from all humans', args: '<role>', permissions: 'Manage Roles'},
-    {name: 'role delete', category: 'Moderation', description: 'Delete a role', args: '<role>', permissions: 'Manage Roles'},
-    {name: 'role color', category: 'Moderation', description: 'Change role color', args: '<role> <color>', permissions: 'Manage Roles'},
-    {name: 'role color gradient', category: 'Moderation', description: 'Create gradient role colors', args: '<role1> <role2> <color1> <color2>', permissions: 'Manage Roles'},
-    {name: 'role restore', category: 'Moderation', description: 'Restore user roles', args: '<user>', permissions: 'Manage Roles'},
-    {name: 'role icon', category: 'Moderation', description: 'Set role icon', args: '<role> <image>', permissions: 'Manage Roles'},
-    {name: 'role edit', category: 'Moderation', description: 'Change a role\'s name', args: '<role> <property> <value>', permissions: 'Manage Roles'},
-    {name: 'role bots', category: 'Moderation', description: 'Give role to all bots', args: '<role>', permissions: 'Manage Roles'},
-    {name: 'role bots remove', category: 'Moderation', description: 'Remove role from all bots', args: '<role>', permissions: 'Manage Roles'},
-    {name: 'role create', category: 'Moderation', description: 'Create a new role', args: '<name>', permissions: 'Manage Roles'},
-    {name: 'role hoist', category: 'Moderation', description: 'Toggle role hoist', args: '<role>', permissions: 'Manage Roles'},
-    {name: 'role remove', category: 'Moderation', description: 'Remove role from user', args: '<user> <role>', permissions: 'Manage Roles'},
-    {name: 'purge', category: 'Moderation', description: 'Delete multiple messages from a channel', args: '<amount>', permissions: 'Manage Messages'},
-    {name: 'nuke', category: 'Moderation', description: 'Clone the current channel', args: '[channel]', permissions: 'Manage Channels'},
-    {name: 'nuke view', category: 'Moderation', description: 'View nuke settings', args: '', permissions: 'Manage Channels'},
-    {name: 'nuke add', category: 'Moderation', description: 'Add channel to nuke whitelist', args: '<channel>', permissions: 'Manage Channels'},
-    {name: 'nuke remove', category: 'Moderation', description: 'Remove channel from nuke whitelist', args: '<channel>', permissions: 'Manage Channels'},
-    {name: 'nuke archive', category: 'Moderation', description: 'Archive channel before nuking', args: '<channel>', permissions: 'Manage Channels'},
-    {name: 'newmembers', category: 'Moderation', description: 'View new members', args: '[amount]', permissions: 'Manage Server'},
-    {name: 'recentban', category: 'Moderation', description: 'View recent bans', args: '', permissions: 'Ban Members'},
-    {name: 'slowmode', category: 'Moderation', description: 'Set slowmode for a channel', args: '<seconds>', permissions: 'Manage Channels'},
-    {name: 'slowmode off', category: 'Moderation', description: 'Turn off slowmode', args: '', permissions: 'Manage Channels'},
-    {name: 'slowmode on', category: 'Moderation', description: 'Turn on slowmode', args: '<seconds>', permissions: 'Manage Channels'},
-    {name: 'setup', category: 'Moderation', description: 'Start process for setting up the moderation system', args: '', permissions: 'Administrator'},
-    {name: 'rename', category: 'Moderation', description: 'Rename channel or user', args: '<target> <name>', permissions: 'Manage Channels'},
-    {name: 'restrictcommand', category: 'Moderation', description: 'Restrict a command to a certain role', args: '', permissions: 'Manage Server'},
-    {name: 'restrictcommand add', category: 'Moderation', description: 'Add command restriction', args: '<command> <role>', permissions: 'Manage Server'},
-    {name: 'restrictcommand remove', category: 'Moderation', description: 'Remove command restriction', args: '<command>', permissions: 'Manage Server'},
-    {name: 'restrictcommand list', category: 'Moderation', description: 'List command restrictions', args: '', permissions: 'Manage Server'},
-    {name: 'stickyrole', category: 'Moderation', description: 'Reapplies a role on join', args: '', permissions: 'Manage Roles'},
-    {name: 'stickyrole add', category: 'Moderation', description: 'Add sticky role', args: '<role>', permissions: 'Manage Roles'},
-    {name: 'stickyrole remove', category: 'Moderation', description: 'Remove sticky role', args: '<role>', permissions: 'Manage Roles'},
-    {name: 'raid', category: 'Moderation', description: 'Remove members who joined in the time of a raid', args: '', permissions: 'Manage Server'},
-    {name: 'forcenickname', category: 'Moderation', description: 'Force user nickname', args: '<user> <nickname>', permissions: 'Manage Nicknames'},
-    {name: 'topic', category: 'Moderation', description: 'Change the current channel topic', args: '<topic>', permissions: 'Manage Channels'},
-    {name: 'nsfw', category: 'Moderation', description: 'Toggle NSFW mode for channel', args: '[channel]', permissions: 'Manage Channels'},
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
 
-    // Roleplay Commands
-    {name: 'roleplay', category: 'Roleplay', description: 'Enable/disable roleplay', args: '', permissions: 'Send Messages'},
-    {name: 'airkiss', category: 'Roleplay', description: 'Send an air kiss to someone', args: '[user]', permissions: 'Send Messages'},
-    {name: 'angrystare', category: 'Roleplay', description: 'Angrily stare at someone', args: '[user]', permissions: 'Send Messages'},
-    {name: 'bite', category: 'Roleplay', description: 'Bite someone', args: '[user]', permissions: 'Send Messages'},
-    {name: 'bleh', category: 'Roleplay', description: 'Stick your tongue out at somebody', args: '', permissions: 'Send Messages'},
-    {name: 'brofist', category: 'Roleplay', description: 'Give someone a brofist', args: '[user]', permissions: 'Send Messages'},
-    {name: 'celebrate', category: 'Roleplay', description: 'Celebrate with somebody', args: '', permissions: 'Send Messages'},
-    {name: 'cheers', category: 'Roleplay', description: 'Cheers with somebody', args: '[user]', permissions: 'Send Messages'},
-    {name: 'clap', category: 'Roleplay', description: 'Clap with somebody', args: '[user]', permissions: 'Send Messages'},
-    {name: 'confused', category: 'Roleplay', description: 'Show confusion at somebody', args: '', permissions: 'Send Messages'},
-    {name: 'cool', category: 'Roleplay', description: 'Cool with somebody', args: '', permissions: 'Send Messages'},
-    {name: 'cry', category: 'Roleplay', description: 'Cry with somebody', args: '', permissions: 'Send Messages'},
-    {name: 'cuddle', category: 'Roleplay', description: 'Cuddle with somebody', args: '[user]', permissions: 'Send Messages'},
-    {name: 'dance', category: 'Roleplay', description: 'Dance with somebody', args: '', permissions: 'Send Messages'},
-    {name: 'drool', category: 'Roleplay', description: 'Drool over somebody', args: '', permissions: 'Send Messages'},
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
 
-    // Last.fm Commands
-    {name: 'lastfm set', category: 'Last.fm', description: 'Set your Last.fm username', args: '<username>', permissions: 'Send Messages'},
-    {name: 'lastfm taste', category: 'Last.fm', description: 'Compare your music taste between you and someone else', args: '[user]', permissions: 'Send Messages'},
-    {name: 'lastfm milestone', category: 'Last.fm', description: 'See what track your given number scrobble was', args: '<number>', permissions: 'Send Messages'},
-    {name: 'lastfm mode', category: 'Last.fm', description: 'Customize your Now Playing embed', args: 'minimal', permissions: 'Send Messages'},
-    {name: 'lastfm customreactions', category: 'Last.fm', description: 'Set personal upvote and downvote reaction for Now Playing', args: '<upvote> <downvote>', permissions: 'Send Messages'},
-    {name: 'lastfm customcommand', category: 'Last.fm', description: 'Set your own custom Now Playing command', args: '<n>', permissions: 'Send Messages'},
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
 
-    // Giveaway Commands
-    {name: 'giveaway', category: 'Giveaways', description: 'Manage giveaways in your server', args: '', permissions: 'Manage Server'},
-    {name: 'giveaway start', category: 'Giveaways', description: 'Start a new giveaway', args: '', permissions: 'Manage Server'},
-    {name: 'giveaway end', category: 'Giveaways', description: 'End an active giveaway', args: '', permissions: 'Manage Server'},
-    {name: 'giveaway reroll', category: 'Giveaways', description: 'Reroll a winner from an ended giveaway', args: '', permissions: 'Manage Server'},
-    {name: 'giveaway cancel', category: 'Giveaways', description: 'Cancel an active giveaway', args: '', permissions: 'Manage Server'},
-    {name: 'giveaway list', category: 'Giveaways', description: 'View a list of giveaways', args: '', permissions: 'Manage Server'},
+        .landing {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
 
-    // Antinuke Commands
-    {name: 'antinuke ban', category: 'Antinuke', description: 'Prevent mass member ban', args: '', permissions: 'Administrator'},
-    {name: 'antinuke kick', category: 'Antinuke', description: 'Prevent mass member kick', args: '', permissions: 'Administrator'},
-    {name: 'antinuke role', category: 'Antinuke', description: 'Prevent mass role delete', args: '', permissions: 'Administrator'},
-    {name: 'antinuke webhook', category: 'Antinuke', description: 'Prevent mass webhook creation', args: '', permissions: 'Administrator'},
-    {name: 'antinuke channel', category: 'Antinuke', description: 'Prevent mass channel create and delete', args: '', permissions: 'Administrator'},
-    {name: 'antinuke emoji', category: 'Antinuke', description: 'Prevent mass emoji delete', args: '', permissions: 'Administrator'},
-    {name: 'antinuke botadd', category: 'Antinuke', description: 'Prevent new bot additions', args: '', permissions: 'Administrator'},
-    {name: 'antinuke admin', category: 'Antinuke', description: 'Give a user permissions to edit antinuke settings', args: '<user>', permissions: 'Administrator'},
-    {name: 'antinuke whitelist', category: 'Antinuke', description: 'Whitelist a member from triggering antinuke or bot to join', args: '<user/bot>', permissions: 'Administrator'},
-    {name: 'antinuke config', category: 'Antinuke', description: 'View server configuration for antinuke', args: '', permissions: 'Administrator'},
-    {name: 'antinuke list', category: 'Antinuke', description: 'View all enabled modules along with whitelisted members & bots', args: '', permissions: 'Administrator'},
+        .commands-page {
+            display: none;
+            position: relative;
+            z-index: 2;
+            padding: 40px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
-    // Antiraid Commands
-    {name: 'antiraid massjoin', category: 'Antiraid', description: 'Protect server against mass bot raids', args: '', permissions: 'Manage Server'},
-    {name: 'antiraid avatar', category: 'Antiraid', description: 'Punish accounts without a profile picture', args: '', permissions: 'Manage Server'},
-    {name: 'antiraid newaccounts', category: 'Antiraid', description: 'Punish new registered accounts', args: '', permissions: 'Manage Server'},
-    {name: 'antiraid whitelist', category: 'Antiraid', description: 'Create a one-time whitelist to allow a user to join', args: '<user>', permissions: 'Manage Server'},
-    {name: 'antiraid state', category: 'Antiraid', description: 'Enable or disable antiraid state', args: '<on/off>', permissions: 'Manage Server'},
-    {name: 'antiraid config', category: 'Antiraid', description: 'View server antiraid configuration', args: '', permissions: 'Manage Server'},
+        .commands-page.active {
+            display: block;
+        }
 
-    // Logs Commands
-    {name: 'log add', category: 'Logs', description: 'Setup logging for your community', args: '<channel> [events]', permissions: 'Manage Server'},
-    {name: 'log remove', category: 'Logs', description: 'Remove event logging from a channel', args: '<channel>', permissions: 'Manage Server'},
-    {name: 'log color', category: 'Logs', description: 'Set a custom color for specific event logs', args: '<event> <color>', permissions: 'Manage Server'},
-    {name: 'log ignore', category: 'Logs', description: 'Ignore all events from a member or channel', args: '<user/channel>', permissions: 'Manage Server'},
-    {name: 'log config', category: 'Logs', description: 'View configuration for logging', args: '', permissions: 'Manage Server'},
+        h1 {
+            font-size: 6rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+            text-transform: lowercase;
+        }
 
-    // Starboard Commands
-    {name: 'starboard set', category: 'Starboard', description: 'Set the starboard channel where starboard messages will be sent to', args: '<channel>', permissions: 'Manage Server'},
-    {name: 'starboard threshold', category: 'Starboard', description: 'Set the default amount of stars needed to post', args: '<amount>', permissions: 'Manage Server'},
-    {name: 'starboard emoji', category: 'Starboard', description: 'Set the emoji that triggers the starboard messages', args: '<emoji>', permissions: 'Manage Server'},
-    {name: 'starboard selfstar', category: 'Starboard', description: 'Allows an author to star their own message', args: '<on/off>', permissions: 'Manage Server'},
-    {name: 'starboard attachments', category: 'Starboard', description: 'Allow attachments to appear on Starboard posts', args: '<on/off>', permissions: 'Manage Server'},
-    {name: 'starboard jumpurl', category: 'Starboard', description: 'Allow the jump URL to appear on a Starboard post', args: '<on/off>', permissions: 'Manage Server'},
-    {name: 'starboard timestamp', category: 'Starboard', description: 'Allow a timestamp to appear on Starboard posts', args: '<on/off>', permissions: 'Manage Server'},
-    {name: 'starboard color', category: 'Starboard', description: 'Set the color of Starboard posts', args: '<color>', permissions: 'Manage Server'},
-    {name: 'starboard reset', category: 'Starboard', description: "Reset guild's configuration for Starboard", args: '', permissions: 'Manage Server'},
-    {name: 'starboard config', category: 'Starboard', description: 'View the settings for starboard in guild', args: '', permissions: 'Manage Server'}
-];
+        .explore-btn {
+            background: white;
+            color: #0a0a0a;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 3rem;
+        }
+
+        .explore-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .stats {
+            display: flex;
+            gap: 4rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stat-item {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .stat-item span {
+            color: #888;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid white;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: #0a0a0a;
+        }
+
+        .commands-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .commands-header h2 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-bar::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .category-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: white;
+            color: #0a0a0a;
+            border-color: white;
+        }
+
+        .category-count {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .category-btn.active .category-count {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .command-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .command-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .command-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .command-category {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-bottom: 12px;
+        }
+
+        .command-description {
+            color: #ccc;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .command-args {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .command-permissions {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 4rem;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .commands-header h2 {
+                font-size: 2rem;
+            }
+
+            .commands-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles"></div>
+    
+    <div class="landing" id="landing">
+        <h1>loop</h1>
+        <button class="explore-btn" onclick="showCommands()">Explore Commands</button>
+        <div class="stats">
+            <div class="stat-item"><span>Servers</span> 30+</div>
+            <div class="stat-item"><span>Users</span> 80k+</div>
+        </div>
+    </div>
+
+    <div class="commands-page" id="commandsPage">
+        <div class="commands-header">
+            <button class="back-btn" onclick="showLanding()">← Back</button>
+            <h2>Commands</h2>
+            <input type="text" class="search-bar" id="searchBar" placeholder="Search commands...">
+        </div>
+
+        <div class="categories" id="categories"></div>
+        <div class="commands-grid" id="commandsGrid"></div>
+        <div class="no-results" id="noResults" style="display: none;">No commands found</div>
+    </div>
+
+    <script>
+        const COMMANDS = [
+            {name: 'prefix', category: 'Server', description: 'View or change the server prefix', args: '[new_prefix]', permissions: 'Manage Server'},
+            {name: 'prefixself', category: 'Server', description: 'Set personal prefix across all servers with loop', args: '<prefix>', permissions: 'Send Messages'},
+            {name: 'prefix remove', category: 'Server', description: 'Remove prefix', args: '<prefix>', permissions: 'Manage Server'},
+            {name: 'prefix set', category: 'Server', description: 'Set command prefix for server', args: '<prefix>', permissions: 'Manage Server'},
+            {name: 'boosterrole', category: 'Server', description: 'Manage booster roles', args: '', permissions: 'Manage Server'},
+            {name: 'settings', category: 'Server', description: 'Server Configuration', args: '', permissions: 'Manage Server'},
+            {name: 'birthday set', category: 'Server', description: 'Set your birthday', args: '<date>', permissions: 'Send Messages'},
+            {name: 'timezone', category: 'Server', description: 'View your current time or someone elses', args: '[user]', permissions: 'Send Messages'},
+            {name: 'welcome', category: 'Moderation', description: 'Manage welcome messages', args: '', permissions: 'Manage Server'},
+            {name: 'goodbye', category: 'Moderation', description: 'Manage goodbye messages', args: '', permissions: 'Manage Server'},
+            {name: 'filter', category: 'Moderation', description: 'View options to keep your chat clean', args: '', permissions: 'Manage Server'},
+            {name: 'autoresponder', category: 'Moderation', description: 'Set auto responses', args: '', permissions: 'Manage Server'},
+            {name: 'warn', category: 'Moderation', description: 'Warn a user', args: '<user> <reason>', permissions: 'Manage Messages'},
+            {name: 'ban', category: 'Moderation', description: 'Bans the mentioned user', args: '<user> [reason]', permissions: 'Ban Members'},
+            {name: 'kick', category: 'Moderation', description: 'Kicks the mentioned user', args: '<user> [reason]', permissions: 'Kick Members'},
+            {name: 'mute', category: 'Moderation', description: 'Mute a user in the server', args: '<user> [time]', permissions: 'Manage Roles'},
+            {name: 'purge', category: 'Moderation', description: 'Delete multiple messages from a channel', args: '<amount>', permissions: 'Manage Messages'},
+            {name: 'role', category: 'Moderation', description: 'Manage roles', args: '<user> <role>', permissions: 'Manage Roles'},
+            {name: 'airkiss', category: 'Roleplay', description: 'Send an air kiss to someone', args: '[user]', permissions: 'Send Messages'},
+            {name: 'bite', category: 'Roleplay', description: 'Bite someone', args: '[user]', permissions: 'Send Messages'},
+            {name: 'cuddle', category: 'Roleplay', description: 'Cuddle with somebody', args: '[user]', permissions: 'Send Messages'},
+            {name: 'hug', category: 'Roleplay', description: 'Hug someone', args: '[user]', permissions: 'Send Messages'},
+            {name: 'lastfm set', category: 'Last.fm', description: 'Set your Last.fm username', args: '<username>', permissions: 'Send Messages'},
+            {name: 'lastfm taste', category: 'Last.fm', description: 'Compare your music taste between you and someone else', args: '[user]', permissions: 'Send Messages'},
+            {name: 'giveaway start', category: 'Giveaways', description: 'Start a new giveaway', args: '', permissions: 'Manage Server'},
+            {name: 'giveaway end', category: 'Giveaways', description: 'End an active giveaway', args: '', permissions: 'Manage Server'},
+            {name: 'antinuke ban', category: 'Antinuke', description: 'Prevent mass member ban', args: '', permissions: 'Administrator'},
+            {name: 'antinuke kick', category: 'Antinuke', description: 'Prevent mass member kick', args: '', permissions: 'Administrator'},
+            {name: 'antinuke role', category: 'Antinuke', description: 'Prevent mass role delete', args: '', permissions: 'Administrator'},
+            {name: 'antiraid massjoin', category: 'Antiraid', description: 'Protect server against mass bot raids', args: '', permissions: 'Manage Server'},
+            {name: 'log add', category: 'Logs', description: 'Setup logging for your community', args: '<channel> [events]', permissions: 'Manage Server'},
+            {name: 'starboard set', category: 'Starboard', description: 'Set the starboard channel where starboard messages will be sent to', args: '<channel>', permissions: 'Manage Server'},
+            {name: 'starboard channel', category: 'Starboard', description: 'Set the starboard channel', args: '<channel>', permissions: 'Manage Server'},
+            {name: 'starboard emoji', category: 'Starboard', description: 'Set the emoji that triggers the starboard messages', args: '<emoji>', permissions: 'Manage Server'},
+            {name: 'starboard threshold', category: 'Starboard', description: 'Set the default amount of stars needed to post', args: '<amount>', permissions: 'Manage Server'},
+            {name: 'starboard jumpurl', category: 'Starboard', description: 'Allow the jump URL to appear on a Starboard post', args: '<on/off>', permissions: 'Manage Server'},
+            {name: 'starboard attachments', category: 'Starboard', description: 'Allow attachments to appear on Starboard posts', args: '<on/off>', permissions: 'Manage Server'}
+        ];
+
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 100;
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            const size = Math.random() * 4 + 2;
+            const startX = Math.random() * window.innerWidth;
+            const duration = Math.random() * 3 + 2;
+            const delay = Math.random() * 5;
+            
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${startX}px`;
+            particle.style.top = `-10px`;
+            particle.style.opacity = Math.random() * 0.5 + 0.3;
+            particle.style.animationDuration = `${duration}s`;
+            particle.style.animationDelay = `${delay}s`;
+            
+            particlesContainer.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+                createParticle();
+            }, (duration + delay) * 1000);
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            createParticle();
+        }
+
+        let currentCategory = 'Server';
+
+        function showCommands() {
+            document.getElementById('landing').style.display = 'none';
+            document.getElementById('commandsPage').classList.add('active');
+            renderCategories();
+            renderCommands();
+        }
+
+        function showLanding() {
+            document.getElementById('landing').style.display = 'flex';
+            document.getElementById('commandsPage').classList.remove('active');
+        }
+
+        function renderCategories() {
+            const categories = [...new Set(COMMANDS.map(cmd => cmd.category))];
+            const categoriesContainer = document.getElementById('categories');
+            
+            categoriesContainer.innerHTML = categories.map(cat => {
+                const count = COMMANDS.filter(cmd => cmd.category === cat).length;
+                
+                return `<button class="category-btn ${cat === currentCategory ? 'active' : ''}" 
+                         onclick="filterCategory('${cat}')">
+                    ${cat}
+                    <span class="category-count">${count}</span>
+                </button>`;
+            }).join('');
+        }
+
+        function filterCategory(category) {
+            currentCategory = category;
+            renderCategories();
+            renderCommands();
+        }
+
+        function renderCommands() {
+            const searchTerm = document.getElementById('searchBar').value.toLowerCase();
+            const grid = document.getElementById('commandsGrid');
+            const noResults = document.getElementById('noResults');
+            
+            let filtered = COMMANDS.filter(cmd => cmd.category === currentCategory);
+            
+            if (searchTerm) {
+                filtered = filtered.filter(cmd => 
+                    cmd.name.toLowerCase().includes(searchTerm) ||
+                    cmd.description.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            if (filtered.length === 0) {
+                grid.style.display = 'none';
+                noResults.style.display = 'block';
+            } else {
+                grid.style.display = 'grid';
+                noResults.style.display = 'none';
+                
+                grid.innerHTML = filtered.map(cmd => `
+                    <div class="command-card">
+                        <div class="command-name">${cmd.name}</div>
+                        <div class="command-category">${cmd.category}</div>
+                        <div class="command-description">${cmd.description}</div>
+                        ${cmd.args ? `<div class="command-args">Args: ${cmd.args}</div>` : ''}
+                        <div class="command-permissions">Requires: ${cmd.permissions}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        document.getElementById('searchBar').addEventListener('input', renderCommands);
+    </script>
+</body>
+</html>
